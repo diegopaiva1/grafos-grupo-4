@@ -45,3 +45,33 @@
 1524232093 source:/home/diego/Área de Trabalho/diego/grafosGrupo4/ListaEncadeada.cpp
 	"ListaEncadeada.h"
 
+1523409037 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Aresta.cpp
+	"Aresta.h"
+
+1523409037 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Aresta.h
+	"No.h"
+
+1524232093 /home/diego/Área de Trabalho/diego/grafos-grupo-4/No.h
+
+1524232409 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Grafo.cpp
+	"Grafo.h"
+
+1524232093 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Grafo.h
+	<iostream>
+	<fstream>
+	"ListaEncadeada.h"
+	"Aresta.h"
+
+1524232093 /home/diego/Área de Trabalho/diego/grafos-grupo-4/ListaEncadeada.h
+	<iostream>
+	"No.h"
+
+1524232093 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/ListaEncadeada.cpp
+	"ListaEncadeada.h"
+
+1524233371 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/main.cpp
+	"Grafo.h"
+
+1524232093 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/No.cpp
+	"No.h"
+

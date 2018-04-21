@@ -10,7 +10,7 @@ ListaEncadeada::~ListaEncadeada()
     //dtor
 }
 
-void ListaEncadeada::inserirNoInicio(No *no)
+void ListaEncadeada::inserir(No *no)
 {
     no->setProximoNo(this->raiz);
     this->raiz = no;
@@ -45,4 +45,10 @@ void ListaEncadeada::imprimir()
 No* ListaEncadeada::getRaiz()
 {
     return this->raiz;
+}
+
+ListaEncadeada* ListaEncadeada::novaLista()
+{
+    ListaEncadeada *lista = new ListaEncadeada();
+    return lista;
 }

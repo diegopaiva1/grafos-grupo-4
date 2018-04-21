@@ -12,9 +12,10 @@ class ListaEncadeada
     public:
         ListaEncadeada();
         ~ListaEncadeada();
-        void inserirNoInicio(No *no);
+        void inserir(No *no);
         bool contem(No *no);
         void imprimir();
+        ListaEncadeada* novaLista();
         No* getRaiz();
 };
 

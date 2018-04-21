@@ -1,4 +1,4 @@
-/* Fonte consultada para estudo da lista encadeada: https://pt.wikibooks.org/wiki/Programar_em_C/Listas_encadeadas
+/* Referência da biblioteca <forward_list>: http://www.cplusplus.com/reference/forward_list/forward_list/
  *
  */
 
@@ -7,24 +7,31 @@
 
 #include <iostream>
 #include <fstream>
+#include <forward_list>
+#include <algorithm>
 
-#include "ListaEncadeada.h"
 #include "Aresta.h"
 
 class Grafo
 {
     private:
         int ordem;
-        ListaEncadeada *listaNos;
-        Aresta *arestas;
+        std::forward_list<std::forward_list<No*>> listaAdjacencia;
+        std::forward_list<Aresta*> arestas;
         void leArquivo(std::string nomeArquivo);
+        bool listaContemNo(std::forward_list<No*> lista, No *no);
+        void popularListaAdjacencia(std::forward_list<No*> *lista);
     public:
         Grafo(std::string nomeArquivo);
         Grafo();
         ~Grafo();
         int getOrdem();
         bool ehNulo();
-        ListaEncadeada* getListaNos();
+        bool ehTrivial();
+        void imprimeListaAdjacencia();
+        void imprimirArestas();
+        void incluirNo(No *no);
+        void incluirAresta(Aresta *aresta);
 };
 
 #endif // GRAFO_H_INCLUDED

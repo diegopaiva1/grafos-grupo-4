@@ -75,24 +75,35 @@
 1524234682 source:c:\users\andre luiz\desktop\trabalhodegrafosnovo\grafos-grupo-4\no.cpp
 	"No.h"
 
-1524232409 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Grafo.cpp
+1524353952 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Grafo.cpp
 	"Grafo.h"
 
-1524232093 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Grafo.h
+1524353952 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Grafo.h
 	<iostream>
 	<fstream>
-	"ListaEncadeada.h"
+	<forward_list>
+	<algorithm>
 	"Aresta.h"
 
-1524232093 /home/diego/Área de Trabalho/diego/grafos-grupo-4/ListaEncadeada.h
+1524353952 /home/diego/Área de Trabalho/diego/grafos-grupo-4/ListaEncadeada.h
 	<iostream>
 	"No.h"
 
-1524232093 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/ListaEncadeada.cpp
+1524353952 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/ListaEncadeada.cpp
 	"ListaEncadeada.h"
 
-1524233371 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/main.cpp
+1524353952 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/main.cpp
 	"Grafo.h"
+	<forward_list>
 
 1524232093 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/No.cpp
 	"No.h"
+
+1523409037 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Aresta.cpp
+	"Aresta.h"
+
+1523409037 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Aresta.h
+	"No.h"
+
+1524232093 /home/diego/Área de Trabalho/diego/grafos-grupo-4/No.h
+

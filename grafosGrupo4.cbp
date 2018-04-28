@@ -36,10 +36,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="Exceptions/NodeAlreadyExistsException.cpp" />
-		<Unit filename="Exceptions/NodeAlreadyExistsException.h">
-			<Option link="1" />
-		</Unit>
+		<Unit filename="Exceptions/NoException.h" />
 		<Unit filename="Headers/Aresta.h" />
 		<Unit filename="Headers/Grafo.h" />
 		<Unit filename="Headers/No.h" />

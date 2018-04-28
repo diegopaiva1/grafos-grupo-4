@@ -1,4 +1,4 @@
-#include "Aresta.h"
+#include "../Headers/Aresta.h"
 
 Aresta::Aresta(No *primeiroNo, No *segundoNo, double peso)
 {

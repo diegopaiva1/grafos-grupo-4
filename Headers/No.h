@@ -14,6 +14,7 @@ class No
         void setId(int id);
         void setProximoNo(No *no);
         No* getProximoNo();
+        bool ehIgualA(No *no);
 };
 
 #endif // NO_H_INCLUDED

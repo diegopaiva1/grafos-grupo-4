@@ -1,0 +1,46 @@
+# depslib dependency file v1.0
+1524940053 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/Aresta.cpp
+	"../Headers/Aresta.h"
+
+1523409037 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/Aresta.h
+	"No.h"
+
+1524840553 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/No.h
+
+1524953518 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/Grafo.cpp
+	"../Headers/Grafo.h"
+
+1524953528 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/Grafo.h
+	<iostream>
+	<fstream>
+	<list>
+	"Aresta.h"
+	"../Exceptions/NoException.h"
+
+1524951015 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/main.cpp
+	"../Headers/Grafo.h"
+	<list>
+	<iterator>
+	<exception>
+
+1524940090 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/No.cpp
+	"../Headers/No.h"
+
+1524941535 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Exceptions/NodeAlreadyExistsException.h
+
+1524941653 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Exceptions/NodeAlreadyExistsException.cpp
+	<iostream>
+	<exception>
+
+1524941540 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Exceptions/NodeAlreadyExistsException.cpp
+	<iostream>
+	<exception>
+
+1524942695 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Exceptions/NoException.cpp
+	"NoException.h"
+
+1524942848 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Exceptions/NoException.h
+	<iostream>
+	<exception>
+	<string>
+

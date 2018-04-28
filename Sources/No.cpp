@@ -1,4 +1,4 @@
-#include "No.h"
+#include "../Headers/No.h"
 
 No::No(int id)
 {
@@ -33,4 +33,9 @@ No* No::getProximoNo()
 void No::setId(int id)
 {
     this->id = id;
+}
+
+bool No::ehIgualA(No *no)
+{
+    return this->id == no->getId() ? true : false;
 }

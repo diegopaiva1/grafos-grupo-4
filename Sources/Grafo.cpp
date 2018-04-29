@@ -4,11 +4,13 @@ Grafo::Grafo(std::string arquivo)
 {
     this->arquivo = arquivo;
     this->leArquivo();
+    this->setSequenciaGrau();
 }
 
 Grafo::Grafo()
 {
     this->ordem = 0;
+    this->setSequenciaGrau();
 }
 
 Grafo::~Grafo()
@@ -60,7 +62,7 @@ void Grafo::leArquivo()
             }
         }
 
-        popularListaAdjacencia(adjacente);
+        popularlistaListaAdjacencias(adjacente);
     }
 }
 
@@ -75,18 +77,35 @@ bool Grafo::listaContemNo(std::list<No*> lista, No *no) {
     return false;
 }
 
-void Grafo::popularListaAdjacencia(std::list<No*> *adjacente)
+void Grafo::popularlistaListaAdjacencias(std::list<No*> *adjacente)
 {
     for(int i = 0; i < ordem; i++) {
-        this->listaAdjacencia.push_back(adjacente[i]);
+        this->listaListaAdjacencias.push_back(adjacente[i]);
     }
 }
 
+void Grafo::setSequenciaGrau()
+{
+    std::list<std::list<No*>>::iterator i;
+    for(i = listaListaAdjacencias.begin(); i != listaListaAdjacencias.end(); i++) {
+        std::list<No*> lista = *i;
+        // Quantidade de nos adjacentes para cada lista
+        int grauNo = lista.size() - 1;
+        sequenciaGrau.push_back(grauNo);
+    }
+
+    sequenciaGrau.sort();
+    sequenciaGrau.reverse();
+}
+
+/*
+ * ====================================== TODO =========================================
+ *
 void Grafo::incluirNo(No *no)
 {
     bool noExiste = false;
     std::list<std::list<No*>>::iterator i;
-    for(i = listaAdjacencia.begin(); i != listaAdjacencia.end(); i++) {
+    for(i = listaListaAdjacencias.begin(); i != listaListaAdjacencias.end(); i++) {
         std::list<No*> lista = *i;
         No *primeiroNoLista = *lista.begin();
         if(primeiroNoLista->ehIgualA(no)) {
@@ -100,7 +119,7 @@ void Grafo::incluirNo(No *no)
         std::list<No*> lista;
         lista.push_back(no);
         // Adiciona nova lista à lista de adjecencias do grafo
-        this->listaAdjacencia.push_back(lista);
+        this->listaListaAdjacencias.push_back(lista);
 
         std::ofstream myfile;
         myfile.open(this->arquivo, std::ios_base::app);
@@ -118,7 +137,7 @@ void Grafo::excluirNo(int id)
 
     std::list<std::list<No*>>::iterator i;
 
-    for(i = listaAdjacencia.begin(); i != listaAdjacencia.end(); i++) {
+    for(i = listaListaAdjacencias.begin(); i != listaListaAdjacencias.end(); i++) {
         std::list<No*> &lista = *i;
         std::list<No*>::iterator j;
         for(j = lista.begin(); j != lista.end(); j++) {
@@ -136,7 +155,7 @@ void Grafo::incluirAresta(Aresta *aresta)
 
     std::list<std::list<No*>>::iterator i;
 
-    for(i = listaAdjacencia.begin(); i != listaAdjacencia.end(); i++) {
+    for(i = listaListaAdjacencias.begin(); i != listaListaAdjacencias.end(); i++) {
         std::list<No*> &lista = *i;
         No *primeiroNoLista = *lista.begin();
 
@@ -149,6 +168,7 @@ void Grafo::incluirAresta(Aresta *aresta)
         }
     }
 }
+*/
 
 int Grafo::getOrdem()
 {
@@ -192,9 +212,7 @@ bool Grafo::ehMultigrafo()
         std::list<Aresta*>::iterator k;
         for(k = std::next(i); k != arestas.end(); k++) {
             Aresta *arestaComparacao = *k;
-            No *no3 = arestaComparacao->getPrimeiroNo();
-            No *no4 = arestaComparacao->getSegundoNo();
-            if( (no1->ehIgualA(no3) && no2->ehIgualA(no4)) || (no1->ehIgualA(no4) && no2->ehIgualA(no3)) ) {
+            if(aresta->possuemMesmasExtremidades(arestaComparacao)) {
                 possuiArestaMultipla = true;
             }
         }
@@ -203,11 +221,27 @@ bool Grafo::ehMultigrafo()
     return (possuiSelfLoop || possuiArestaMultipla);
 }
 
-void Grafo::imprimeListaAdjacencia()
+bool Grafo::ehCompleto()
+{
+    bool todosVerticesPossuemMesmoGrau = true;
+    std::list<int>::iterator i;
+    // Comparando as sequencias de grau dois a dois
+    for(i = sequenciaGrau.begin(); i != sequenciaGrau.end(); i++) {
+        std::list<int>::iterator j;
+        for(j = std::next(i); j != sequenciaGrau.end(); j++) {
+            if(*i != *j) {
+                todosVerticesPossuemMesmoGrau = false;
+            }
+        }
+    }
+    return todosVerticesPossuemMesmoGrau;
+}
+
+void Grafo::imprimirListaListaAdjacencias()
 {
     std::list<std::list<No*>>::iterator i;
     // Itera por cada uma das listas de adjacencia
-    for(i = listaAdjacencia.begin(); i != listaAdjacencia.end(); i++) {
+    for(i = listaListaAdjacencias.begin(); i != listaListaAdjacencias.end(); i++) {
         std::list<No*> listaNos = *i;
         std::list<No*>::iterator j;
         // Itera por cada um dos nos de cada lista de adjacencia
@@ -232,10 +266,63 @@ void Grafo::imprimirArestas()
     }
 }
 
+void Grafo::imprimirVizinhancaFechada(int id)
+{
+    bool idExisteNoGrafo = false;
+    std::list<std::list<No*>>::iterator i;
+    for(i = listaListaAdjacencias.begin(); i != listaListaAdjacencias.end(); i++) {
+        std::list<No*> lista = *i;
+        No *primeiroNoLista = *lista.begin();
+        if(primeiroNoLista->getId() == id) {
+            idExisteNoGrafo = true;
+            std::cout << "Vizinhança fechada do no " << id << " : ";
+            std::list<No*>::iterator j;
+            for(j = lista.begin(); j != lista.end(); j++) {
+                No *no = *j;
+                std::cout << no->getId() << " ";
+            }
+        }
+    }
+    if(!idExisteNoGrafo) {
+        std::cout << "O no " << id << " não faz parte deste grafo" << std::endl;
+    }
+}
+
+void Grafo::imprimirVizinhancaAberta(int id)
+{
+    bool idExisteNoGrafo = false;
+    std::list<std::list<No*>>::iterator i;
+    for(i = listaListaAdjacencias.begin(); i != listaListaAdjacencias.end(); i++) {
+        std::list<No*> lista = *i;
+        No *primeiroNoLista = *lista.begin();
+        if(primeiroNoLista->getId() == id) {
+            idExisteNoGrafo = true;
+            std::cout << "Vizinhança aberta do no " << id << " : ";
+            std::list<No*>::iterator j;
+            for(j = std::next(lista.begin()); j != lista.end(); j++) {
+                No *no = *j;
+                std::cout << no->getId() << " ";
+            }
+        }
+    }
+    if(!idExisteNoGrafo) {
+        std::cout << "O no " << id << " não faz parte deste grafo" << std::endl;
+    }
+}
+
+void Grafo::imprimirSequenciaGrau()
+{
+    std::list<int>::iterator i;
+    std::cout << "Sequencia de grau do grafo: ";
+    for(i = sequenciaGrau.begin(); i != sequenciaGrau.end(); i++) {
+        std::cout << *i << " ";
+    }
+}
+
 No* Grafo::getNo(int id)
 {
     std::list<std::list<No*>>::iterator i;
-    for(i = listaAdjacencia.begin(); i != listaAdjacencia.end(); i++) {
+    for(i = listaListaAdjacencias.begin(); i != listaListaAdjacencias.end(); i++) {
         std::list<No*> lista = *i;
         No *no = *lista.begin();
         if(no->getId() == id) {

@@ -10,19 +10,18 @@
 #include <list>
 
 #include "Aresta.h"
-#include "../Exceptions/NoException.h"
-
 
 class Grafo
 {
     private:
         int ordem;
         std::string arquivo;
-        std::list<std::list<No*>> listaAdjacencia;
+        std::list<std::list<No*>> listaListaAdjacencias;
         std::list<Aresta*> arestas;
+        std::list<int> sequenciaGrau;
         void leArquivo();
         bool listaContemNo(std::list<No*> lista, No *no);
-        void popularListaAdjacencia(std::list<No*> *lista);
+        void popularlistaListaAdjacencias(std::list<No*> *lista);
     public:
         Grafo(std::string arquivo);
         Grafo();
@@ -31,8 +30,13 @@ class Grafo
         bool ehNulo();
         bool ehTrivial();
         bool ehMultigrafo();
-        void imprimeListaAdjacencia();
+        bool ehCompleto();
+        void setSequenciaGrau();
+        void imprimirListaListaAdjacencias();
         void imprimirArestas();
+        void imprimirVizinhancaFechada(int id);
+        void imprimirVizinhancaAberta(int id);
+        void imprimirSequenciaGrau();
         void incluirNo(No *no);
         void excluirNo(int id);
         void incluirAresta(Aresta *aresta);

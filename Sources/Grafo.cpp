@@ -224,17 +224,34 @@ bool Grafo::ehMultigrafo()
 bool Grafo::ehCompleto()
 {
     bool todosVerticesPossuemMesmoGrau = true;
-    std::list<int>::iterator i;
-    // Comparando as sequencias de grau dois a dois
-    for(i = sequenciaGrau.begin(); i != sequenciaGrau.end(); i++) {
-        std::list<int>::iterator j;
-        for(j = std::next(i); j != sequenciaGrau.end(); j++) {
-            if(*i != *j) {
-                todosVerticesPossuemMesmoGrau = false;
+    if(!ehMultigrafo()) {
+        std::list<int>::iterator i;
+        // Comparando as sequencias de grau dois a dois
+        for(i = sequenciaGrau.begin(); i != sequenciaGrau.end(); i++) {
+            std::list<int>::iterator j;
+            for(j = std::next(i); j != sequenciaGrau.end(); j++) {
+                if(*i != *j) {
+                    todosVerticesPossuemMesmoGrau = false;
+                }
             }
         }
     }
     return todosVerticesPossuemMesmoGrau;
+}
+
+bool Grafo::ehKRegular(int k)
+{
+    if(k != ordem) {
+        return false;
+    }
+    else {
+        if(k == ordem && ehCompleto()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
 
 void Grafo::imprimirListaListaAdjacencias()
@@ -283,6 +300,7 @@ void Grafo::imprimirVizinhancaFechada(int id)
             }
         }
     }
+
     if(!idExisteNoGrafo) {
         std::cout << "O no " << id << " não faz parte deste grafo" << std::endl;
     }

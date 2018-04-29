@@ -31,6 +31,7 @@ class Grafo
         bool ehTrivial();
         bool ehMultigrafo();
         bool ehCompleto();
+        bool ehKRegular(int k);
         void setSequenciaGrau();
         void imprimirListaListaAdjacencias();
         void imprimirArestas();

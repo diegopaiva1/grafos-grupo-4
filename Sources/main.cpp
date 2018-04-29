@@ -6,11 +6,22 @@ int main()
 {
     Grafo *grafo = new Grafo("grafo.txt");
 
+    int k = 5;
+
     grafo->imprimirListaListaAdjacencias();
     cout << endl;
     grafo->imprimirArestas();
     cout << endl;
+    cout << "Ordem: " << grafo->getOrdem() << endl;
     grafo->imprimirSequenciaGrau();
     cout << endl;
-    cout << grafo->ehCompleto() << endl;
+    grafo->ehNulo() ? cout << "È nulo\n" : cout << "Não é nulo\n";
+    grafo->ehTrivial() ? cout << "È trivial\n" : cout << "Não é trivial\n";
+    grafo->ehCompleto() ? cout << "È completo\n" : cout << "Não é completo\n";
+    grafo->ehKRegular(k) ? cout << "È " << k << "-regular\n" : cout << "Não é " << k << "-regular\n";
+    grafo->ehMultigrafo() ? cout << "È multigrafo\n" : cout << "Não é multigrafo\n";
+    grafo->imprimirVizinhancaAberta(1);
+    cout << endl;
+    grafo->imprimirVizinhancaFechada(2);
+    cout << endl;
 }

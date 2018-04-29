@@ -15,6 +15,7 @@ class Aresta
         No* getPrimeiroNo();
         No* getSegundoNo();
         double getPeso();
+        bool possuemMesmasExtremidades(Aresta *aresta);
 };
 
 

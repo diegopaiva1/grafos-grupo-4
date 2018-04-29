@@ -1,7 +1,4 @@
 #include "../Headers/Grafo.h"
-#include <list>
-#include <iterator>
-#include <exception>
 
 using namespace std;
 
@@ -9,9 +6,11 @@ int main()
 {
     Grafo *grafo = new Grafo("grafo.txt");
 
-    grafo->imprimeListaAdjacencia();
+    grafo->imprimirListaListaAdjacencias();
     cout << endl;
     grafo->imprimirArestas();
     cout << endl;
-    cout << grafo->ehMultigrafo() << endl;
+    grafo->imprimirSequenciaGrau();
+    cout << endl;
+    cout << grafo->ehCompleto() << endl;
 }

@@ -20,8 +20,10 @@ int main()
     grafo->ehCompleto() ? cout << "È completo\n" : cout << "Não é completo\n";
     grafo->ehKRegular(k) ? cout << "È " << k << "-regular\n" : cout << "Não é " << k << "-regular\n";
     grafo->ehMultigrafo() ? cout << "È multigrafo\n" : cout << "Não é multigrafo\n";
+    grafo->ehGrafoGeral() ? cout << "È grafo geral\n" : cout << "Não é grafo geral\n";
     grafo->imprimirVizinhancaAberta(1);
     cout << endl;
     grafo->imprimirVizinhancaFechada(2);
     cout << endl;
+    grafo->imprimirGrau(7);
 }

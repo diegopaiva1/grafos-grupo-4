@@ -43,7 +43,6 @@ void Grafo::leArquivo()
 
             // Adaptar o id do nó ao index do array de listas
             int index1 = id1 - 1;
-            int index2 = id2 - 1;
 
             if(!listaContemNo(adjacente[index1], no1)) {
                 adjacente[index1].push_back(no1);
@@ -52,17 +51,10 @@ void Grafo::leArquivo()
             if(!listaContemNo(adjacente[index1], no2)) {
                 adjacente[index1].push_back(no2);
             }
-
-            if(!listaContemNo(adjacente[index2], no2)) {
-                adjacente[index2].push_back(no2);
-            }
-
-            if(!listaContemNo(adjacente[index2], no1)) {
-                adjacente[index2].push_back(no1);
-            }
         }
 
-        popularlistaListaAdjacencias(adjacente);
+        preencherListasVazias(adjacente);
+        popularListaListaAdjacencias(adjacente);
     }
 }
 
@@ -77,7 +69,17 @@ bool Grafo::listaContemNo(std::list<No*> lista, No *no) {
     return false;
 }
 
-void Grafo::popularlistaListaAdjacencias(std::list<No*> *adjacente)
+void Grafo::preencherListasVazias(std::list<No*> *adjacente)
+{
+    for(int i = 0; i < ordem; i++) {
+        if(adjacente[i].empty()) {
+            No *no = new No(i+1);
+            adjacente[i].push_back(no);
+        }
+    }
+}
+
+void Grafo::popularListaListaAdjacencias(std::list<No*> *adjacente)
 {
     for(int i = 0; i < ordem; i++) {
         this->listaListaAdjacencias.push_back(adjacente[i]);
@@ -195,48 +197,92 @@ bool Grafo::ehTrivial()
     }
 }
 
-bool Grafo::ehMultigrafo()
-{
-    bool possuiSelfLoop = false;
-    bool possuiArestaMultipla = false;
-    std::list<Aresta*>::iterator i;
-    for(i = arestas.begin(); i != arestas.end(); i++) {
-        Aresta *aresta = *i;
-        No *no1 = aresta->getPrimeiroNo();
-        No *no2 = aresta->getSegundoNo();
-        // Caso 1: Self-loop
-        if(no1->ehIgualA(no2)) {
-            possuiSelfLoop = true;
-        }
-        // Caso 2: Aresta multipla
-        std::list<Aresta*>::iterator k;
-        for(k = std::next(i); k != arestas.end(); k++) {
-            Aresta *arestaComparacao = *k;
-            if(aresta->possuemMesmasExtremidades(arestaComparacao)) {
-                possuiArestaMultipla = true;
-            }
-        }
-    }
-
-    return (possuiSelfLoop || possuiArestaMultipla);
-}
-
 bool Grafo::ehCompleto()
 {
-    bool todosVerticesPossuemMesmoGrau = true;
-    if(!ehMultigrafo()) {
+    if(ehDigrafo() || ehGrafoGeral()) {
+        return false;
+    }
+    else {
         std::list<int>::iterator i;
         // Comparando as sequencias de grau dois a dois
         for(i = sequenciaGrau.begin(); i != sequenciaGrau.end(); i++) {
             std::list<int>::iterator j;
             for(j = std::next(i); j != sequenciaGrau.end(); j++) {
                 if(*i != *j) {
-                    todosVerticesPossuemMesmoGrau = false;
+                    return false;
                 }
             }
         }
+        return true;
     }
-    return todosVerticesPossuemMesmoGrau;
+}
+
+bool Grafo::ehGrafoGeral()
+{
+    return possuiSelfLoop() || possuiArestaMultipla();
+}
+
+bool Grafo::ehDigrafo()
+{
+    unsigned int arestasNaoDirecionadas = 0;
+    std::list<Aresta*>::iterator i;
+    for(i = arestas.begin(); i != arestas.end(); i++) {
+        Aresta *aresta = *i;
+        No *no1 = aresta->getPrimeiroNo();
+        No *no2 = aresta->getSegundoNo();
+        double pesoAresta = aresta->getPeso();
+        std::list<Aresta*>::iterator j;
+        for(j = std::next(i); j != arestas.end(); j++) {
+            Aresta *arestaComparacao = *j;
+            No *no3 = arestaComparacao->getPrimeiroNo();
+            No *no4 = arestaComparacao->getSegundoNo();
+            double pesoArestaComparacao = arestaComparacao->getPeso();
+            if(no1->ehIgualA(no4) && no2->ehIgualA(no3) && pesoAresta == pesoArestaComparacao) {
+                arestasNaoDirecionadas++;
+            }
+        }
+    }
+    if(arestasNaoDirecionadas == arestas.size()/2) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+bool Grafo::ehMultigrafo()
+{
+    return !possuiSelfLoop() && possuiArestaMultipla();
+}
+
+bool Grafo::possuiSelfLoop()
+{
+    std::list<Aresta*>::iterator i;
+    for(i = arestas.begin(); i != arestas.end(); i++) {
+        Aresta *aresta = *i;
+        No *no1 = aresta->getPrimeiroNo();
+        No *no2 = aresta->getSegundoNo();
+        if(no1->ehIgualA(no2)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Grafo::possuiArestaMultipla()
+{
+    std::list<Aresta*>::iterator i;
+    for(i = arestas.begin(); i != arestas.end(); i++) {
+        Aresta *aresta = *i;
+        std::list<Aresta*>::iterator k;
+        for(k = std::next(i); k != arestas.end(); k++) {
+            Aresta *arestaComparacao = *k;
+            if(aresta->possuemMesmasExtremidades(arestaComparacao) && aresta->getPeso() != arestaComparacao->getPeso()) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool Grafo::ehKRegular(int k)
@@ -334,6 +380,40 @@ void Grafo::imprimirSequenciaGrau()
     std::cout << "Sequencia de grau do grafo: ";
     for(i = sequenciaGrau.begin(); i != sequenciaGrau.end(); i++) {
         std::cout << *i << " ";
+    }
+}
+
+void Grafo::imprimirGrau(int id)
+{
+    unsigned int grau = 0;
+    unsigned int grauSaida = 0;
+    unsigned int grauEntrada = 0;
+
+    std::list<std::list<No*>>::iterator i;
+    for(i = listaListaAdjacencias.begin(); i != listaListaAdjacencias.end(); i++) {
+        std::list<No*> lista = *i;
+        No *primeiroNo = *lista.begin();
+        std::list<No*>::iterator j;
+
+        if(primeiroNo->getId() == id) {
+            grau = lista.size() - 1; // Lista de adjacencias do nó menos ele mesmo
+            grauSaida = grau;
+        }
+
+        for(j = std::next(lista.begin()); j != lista.end(); j++) {
+            No *no = *j;
+            if(no->getId() == id) {
+                grauEntrada++;
+            }
+        }
+    }
+
+    if(ehDigrafo()) {
+        std::cout << "Grau de saida do no " << id << ": " << grauSaida << std::endl;
+        std::cout << "Grau de entrada do no " << id << ": " << grauEntrada << std::endl;
+    }
+    else {
+        std::cout << "Grau do no " << id << " :" << grau << std::endl;
     }
 }
 

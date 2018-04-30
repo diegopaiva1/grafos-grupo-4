@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <list>
+#include <exception>
 
 #include "Aresta.h"
 
@@ -21,7 +22,10 @@ class Grafo
         std::list<int> sequenciaGrau;
         void leArquivo();
         bool listaContemNo(std::list<No*> lista, No *no);
-        void popularlistaListaAdjacencias(std::list<No*> *lista);
+        void preencherListasVazias(std::list<No*> *lista);
+        void popularListaListaAdjacencias(std::list<No*> *lista);
+        bool possuiSelfLoop();
+        bool possuiArestaMultipla();
     public:
         Grafo(std::string arquivo);
         Grafo();
@@ -31,12 +35,16 @@ class Grafo
         bool ehTrivial();
         bool ehMultigrafo();
         bool ehCompleto();
+        bool ehKRegular(int k);
+        bool ehDigrafo();
+        bool ehGrafoGeral();
         void setSequenciaGrau();
         void imprimirListaListaAdjacencias();
         void imprimirArestas();
         void imprimirVizinhancaFechada(int id);
         void imprimirVizinhancaAberta(int id);
         void imprimirSequenciaGrau();
+        void imprimirGrau(int id);
         void incluirNo(No *no);
         void excluirNo(int id);
         void incluirAresta(Aresta *aresta);

@@ -1,22 +1,23 @@
 # depslib dependency file v1.0
-1524957779 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/Aresta.cpp
+1524964667 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/Aresta.cpp
 	"../Headers/Aresta.h"
 
-1524957749 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/Aresta.h
+1524964667 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/Aresta.h
 	"No.h"
 
 1524954597 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/No.h
 
-1524964269 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/Grafo.cpp
+1525130198 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/Grafo.cpp
 	"../Headers/Grafo.h"
 
-1524963943 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/Grafo.h
+1525130228 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/Grafo.h
 	<iostream>
 	<fstream>
 	<list>
+	<exception>
 	"Aresta.h"
 
-1524964401 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/main.cpp
+1525130340 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/main.cpp
 	"../Headers/Grafo.h"
 
 1524954597 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/No.cpp

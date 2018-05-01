@@ -5,15 +5,12 @@ class No
 {
     private:
         int id;
-        No *proximoNo;
     public:
         No(int id);
         No();
         ~No();
         int getId();
         void setId(int id);
-        void setProximoNo(No *no);
-        No* getProximoNo();
         bool ehIgualA(No *no);
 };
 

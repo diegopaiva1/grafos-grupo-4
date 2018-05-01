@@ -6,7 +6,7 @@ int main()
 {
     Grafo *grafo = new Grafo("grafo.txt");
 
-    int k = 5;
+    int k = 4;
 
     grafo->imprimirListaListaAdjacencias();
     cout << endl;
@@ -25,5 +25,5 @@ int main()
     cout << endl;
     grafo->imprimirVizinhancaFechada(2);
     cout << endl;
-    grafo->imprimirGrau(7);
+    grafo->imprimirGrau(2);
 }

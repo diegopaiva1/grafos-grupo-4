@@ -8,8 +8,8 @@
 #include <iostream>
 #include <fstream>
 #include <list>
-#include <exception>
 
+#include "GraphFileReader.h"
 #include "Aresta.h"
 
 class Grafo
@@ -20,10 +20,6 @@ class Grafo
         std::list<std::list<No*>> listaListaAdjacencias;
         std::list<Aresta*> arestas;
         std::list<int> sequenciaGrau;
-        void leArquivo();
-        bool listaContemNo(std::list<No*> lista, No *no);
-        void preencherListasVazias(std::list<No*> *lista);
-        void popularListaListaAdjacencias(std::list<No*> *lista);
         bool possuiSelfLoop();
         bool possuiArestaMultipla();
     public:

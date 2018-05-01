@@ -15,6 +15,7 @@
 					<Add option="-g" />
 					<Add directory="include" />
 					<Add directory="Exceptions" />
+					<Add directory="Headers" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -26,6 +27,7 @@
 					<Add option="-O2" />
 					<Add directory="include" />
 					<Add directory="Exceptions" />
+					<Add directory="Headers" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -39,9 +41,11 @@
 		<Unit filename="Exceptions/NoException.h" />
 		<Unit filename="Headers/Aresta.h" />
 		<Unit filename="Headers/Grafo.h" />
+		<Unit filename="Headers/GraphFileReader.h" />
 		<Unit filename="Headers/No.h" />
 		<Unit filename="Sources/Aresta.cpp" />
 		<Unit filename="Sources/Grafo.cpp" />
+		<Unit filename="Sources/GraphFileReader.cpp" />
 		<Unit filename="Sources/No.cpp" />
 		<Unit filename="Sources/main.cpp" />
 		<Extensions>

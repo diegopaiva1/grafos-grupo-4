@@ -4,7 +4,7 @@
  *
  * Dado um arquivo texto:
  * Leia a primeira linha do arquivo e atribua o valor a ordem do grafo;
- * Crie n listas de adjacências tal que n = ordem.
+ * Crie n listas de adjacências tal que n = ordem;
  * Leia as demais linhas e construa as arestas do grafo;
  * Salve todos os nós e seus adjacentes em uma estrutura de lista de adjacências.
  */

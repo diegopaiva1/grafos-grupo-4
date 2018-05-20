@@ -25,11 +25,11 @@ class GraphFileReader
         static void read(std::string file,
                          int &ordem,
                          std::list<Aresta*> &arestas,
-                         std::list<std::list<No*>> &listaListaAdjacencias);
+                         std::list<std::list<No*>> &adjacencias);
     private:
         static void preencherListasVazias(std::list<No*> *lista, int ordem);
 
-        static void popularListaListaAdjacencias(std::list<std::list<No*>> &listaListaAdjacencias,
+        static void popularAdjacencias(std::list<std::list<No*>> &adjacencias,
                                                  std::list<No*> *lista,
                                                  int ordem);
 

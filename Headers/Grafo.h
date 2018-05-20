@@ -17,7 +17,7 @@ class Grafo
     private:
         int ordem;
         std::string arquivo;
-        std::list<std::list<No*>> listaListaAdjacencias;
+        std::list<std::list<No*>> adjacencias;
         std::list<Aresta*> arestas;
         std::list<int> sequenciaGrau;
         bool possuiSelfLoop();
@@ -35,7 +35,7 @@ class Grafo
         bool ehDigrafo();
         bool ehGrafoGeral();
         void setSequenciaGrau();
-        void imprimirListaListaAdjacencias();
+        void imprimirAdjacencias();
         void imprimirArestas();
         void imprimirVizinhancaFechada(int id);
         void imprimirVizinhancaAberta(int id);

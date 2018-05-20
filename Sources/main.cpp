@@ -8,7 +8,7 @@ int main()
 
     int k = 4;
 
-    grafo->imprimirListaListaAdjacencias();
+    grafo->imprimirAdjacencias();
     cout << endl;
     grafo->imprimirArestas();
     cout << endl;

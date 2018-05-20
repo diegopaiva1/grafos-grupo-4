@@ -5,22 +5,22 @@
 1524964667 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/Aresta.h
 	"No.h"
 
-1525151518 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/No.h
+1526849750 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/No.h
 
-1525151518 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/Grafo.cpp
+1526850120 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/Grafo.cpp
 	"../Headers/Grafo.h"
 
-1525151518 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/Grafo.h
+1526850120 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/Grafo.h
 	<iostream>
 	<fstream>
 	<list>
 	"GraphFileReader.h"
 	"Aresta.h"
 
-1525151518 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/main.cpp
+1526850120 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/main.cpp
 	"../Headers/Grafo.h"
 
-1525151518 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/No.cpp
+1526849750 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/No.cpp
 	"../Headers/No.h"
 
 1524941535 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Exceptions/NodeAlreadyExistsException.h
@@ -41,13 +41,13 @@
 	<exception>
 	<string>
 
-1525151518 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/GraphFileReader.h
+1526850172 /home/diego/Área de Trabalho/diego/grafos-grupo-4/Headers/GraphFileReader.h
 	<iostream>
 	<fstream>
 	<string>
 	<list>
 	"Aresta.h"
 
-1525151518 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/GraphFileReader.cpp
+1526850073 source:/home/diego/Área de Trabalho/diego/grafos-grupo-4/Sources/GraphFileReader.cpp
 	"GraphFileReader.h"
 

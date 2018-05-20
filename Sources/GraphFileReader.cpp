@@ -3,7 +3,7 @@
 void GraphFileReader::read(std::string file,
                            int &ordem,
                            std::list<Aresta*> &arestas,
-                           std::list<std::list<No*>> &listaListaAdjacencias)
+                           std::list<std::list<No*>> &adjacencias)
 {
     int id1, id2;
     double pesoAresta;
@@ -40,7 +40,7 @@ void GraphFileReader::read(std::string file,
         }
 
         preencherListasVazias(adjacente, ordem);
-        popularListaListaAdjacencias(listaListaAdjacencias, adjacente, ordem);
+        popularAdjacencias(adjacencias, adjacente, ordem);
     }
 }
 
@@ -65,11 +65,11 @@ void GraphFileReader::preencherListasVazias(std::list<No*> *adjacente, int ordem
     }
 }
 
-void GraphFileReader::popularListaListaAdjacencias(std::list<std::list<No*>> &listaListaAdjacencias,
+void GraphFileReader::popularAdjacencias(std::list<std::list<No*>> &adjacencias,
                                                    std::list<No*> *adjacente,
                                                    int ordem)
 {
     for(int i = 0; i < ordem; i++) {
-        listaListaAdjacencias.push_back(adjacente[i]);
+        adjacencias.push_back(adjacente[i]);
     }
 }

@@ -1,4 +1,4 @@
-#include "GraphFileReader.h"
+#include "../Headers/GraphFileReader.h"
 
 void GraphFileReader::read(std::string file,
                            int &ordem,

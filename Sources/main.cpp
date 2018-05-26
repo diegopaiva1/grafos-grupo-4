@@ -5,9 +5,7 @@ using namespace std;
 int main()
 {
     Grafo *grafo = new Grafo("grafo.txt");
-
     int k = 4;
-
     grafo->imprimirAdjacencias();
     cout << endl;
     grafo->imprimirArestas();

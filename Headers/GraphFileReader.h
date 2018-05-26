@@ -5,6 +5,8 @@
  * Dado um arquivo texto:
  * Leia a primeira linha do arquivo e atribua o valor a ordem do grafo;
  * Crie n listas de adjacências tal que n = ordem;
+ * Crie uma estrutura auxiliar para guardar os nós que ja foram lidos e inicialize-a com
+ * ponteiros nulos;
  * Leia as demais linhas e construa as arestas do grafo;
  * Salve todos os nós e seus adjacentes em uma estrutura de lista de adjacências.
  */
@@ -34,6 +36,8 @@ class GraphFileReader
                                                  int ordem);
 
         static bool listaContemNo(std::list<No*> lista, No *no);
+
+        static bool noJaFoiLido(No* nosLidos[], int id);
 };
 
 #endif // GRAPHFILEREADER_H

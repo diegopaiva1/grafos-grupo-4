@@ -140,13 +140,38 @@ bool Grafo::ehCompleto()
         for(i = sequenciaGrau.begin(); i != sequenciaGrau.end(); i++) {
             std::list<int>::iterator j;
             for(j = std::next(i); j != sequenciaGrau.end(); j++) {
-                if(*i != *j) {
+                if(*i != *j || *i != ordem - 1 || *j != ordem - 1) {
                     return false;
                 }
             }
         }
         return true;
     }
+}
+
+bool Grafo::ehBipartido()
+{
+  std::list<std::list<No*>>::iterator i;
+  for(i = adjacencias.begin(); i != adjacencias.end(); i++) {
+    std::list<No*> nos = *i;
+    std::list<No*>::iterator j;
+    No *primeiroNo = *nos.begin();
+    if(!primeiroNo->temBipartiteFlag()) {
+      // Aqui é settada a flag, tanto faz se colocar true ou false inicialmente
+      primeiroNo->setBipartiteFlag(false);
+    }
+    for(j = std::next(nos.begin()); j != nos.end(); j++) {
+      No *no = *j;
+      if(!no->temBipartiteFlag()) {
+        bool flag = !primeiroNo->getBipartiteFlag();
+        no->setBipartiteFlag(flag);
+      }
+      else if(no->getBipartiteFlag() == primeiroNo->getBipartiteFlag()) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 bool Grafo::ehGrafoGeral()

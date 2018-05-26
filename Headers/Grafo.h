@@ -34,6 +34,7 @@ class Grafo
         bool ehKRegular(int k);
         bool ehDigrafo();
         bool ehGrafoGeral();
+        bool ehBipartido();
         void setSequenciaGrau();
         void imprimirAdjacencias();
         void imprimirArestas();

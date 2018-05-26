@@ -19,29 +19,45 @@ void GraphFileReader::read(std::string file,
 
         std::list<No*> adjacente[ordem];
 
+        // Estrutura auxiliar
+        No* nosLidos[ordem];
+
         // Demais linhas
         while(arquivo >> id1 >> id2 >> pesoAresta) {
-            No *no1 = new No(id1);
-            No *no2 = new No(id2);
 
-            Aresta *aresta = new Aresta(no1, no2, pesoAresta);
+            if(!noJaFoiLido(nosLidos, id1)) {
+              No *no = new No(id1);
+              nosLidos[id1-1] = no;
+            }
+
+            if(!noJaFoiLido(nosLidos, id2)) {
+              No *no = new No(id2);
+              nosLidos[id2-1] = no;
+            }
+
+            No *primeiroNoListaAdjacencia = *adjacente[id1-1].begin();
+
+            if(!listaContemNo(adjacente[id1-1], nosLidos[id1-1])) {
+                adjacente[id1-1].push_back(nosLidos[id1-1]);
+            }
+
+            if(!listaContemNo(adjacente[id1-1], nosLidos[id2-1])) {
+                adjacente[id1-1].push_back(nosLidos[id2-1]);
+            }
+
+            Aresta *aresta = new Aresta(nosLidos[id1-1], nosLidos[id2-1], pesoAresta);
             arestas.push_back(aresta);
 
-            // Adaptar o id do nó ao index do array de listas
-            int index1 = id1 - 1;
-
-            if(!listaContemNo(adjacente[index1], no1)) {
-                adjacente[index1].push_back(no1);
-            }
-
-            if(!listaContemNo(adjacente[index1], no2)) {
-                adjacente[index1].push_back(no2);
-            }
         }
 
         preencherListasVazias(adjacente, ordem);
         popularAdjacencias(adjacencias, adjacente, ordem);
     }
+}
+
+bool GraphFileReader::noJaFoiLido(No* nosLidos[], int id)
+{
+  return nosLidos[id-1]->getId() == id ? true : false;
 }
 
 bool GraphFileReader::listaContemNo(std::list<No*> lista, No *no) {
@@ -54,6 +70,7 @@ bool GraphFileReader::listaContemNo(std::list<No*> lista, No *no) {
     }
     return false;
 }
+
 
 void GraphFileReader::preencherListasVazias(std::list<No*> *adjacente, int ordem)
 {

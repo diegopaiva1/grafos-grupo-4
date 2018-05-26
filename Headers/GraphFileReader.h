@@ -34,6 +34,8 @@ class GraphFileReader
                                                  int ordem);
 
         static bool listaContemNo(std::list<No*> lista, No *no);
+
+        static bool noJaFoiLido(No* nosLidos[], int id);
 };
 
 #endif // GRAPHFILEREADER_H

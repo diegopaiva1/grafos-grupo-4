@@ -17,32 +17,31 @@ void GraphFileReader::read(std::string file,
         // Eis a primeira linha
         arquivo >> ordem;
 
-        std::list<No*> adjacente[ordem];
+        std::list<No*> adjacentes[ordem];
 
-        // Estrutura auxiliar
+        // Array auxiliar
         No* nosLidos[ordem];
+
+        // Inicialização do array com ponteiros nulos
+        std::fill(nosLidos, nosLidos + ordem, nullptr);
 
         // Demais linhas
         while(arquivo >> id1 >> id2 >> pesoAresta) {
 
             if(!noJaFoiLido(nosLidos, id1)) {
-              No *no = new No(id1);
-              nosLidos[id1-1] = no;
+              nosLidos[id1-1] = new No(id1);
             }
 
             if(!noJaFoiLido(nosLidos, id2)) {
-              No *no = new No(id2);
-              nosLidos[id2-1] = no;
+              nosLidos[id2-1] = new No(id2);
             }
 
-            No *primeiroNoListaAdjacencia = *adjacente[id1-1].begin();
-
-            if(!listaContemNo(adjacente[id1-1], nosLidos[id1-1])) {
-                adjacente[id1-1].push_back(nosLidos[id1-1]);
+            if(!listaContemNo(adjacentes[id1-1], nosLidos[id1-1])) {
+                adjacentes[id1-1].push_back(nosLidos[id1-1]);
             }
 
-            if(!listaContemNo(adjacente[id1-1], nosLidos[id2-1])) {
-                adjacente[id1-1].push_back(nosLidos[id2-1]);
+            if(!listaContemNo(adjacentes[id1-1], nosLidos[id2-1])) {
+                adjacentes[id1-1].push_back(nosLidos[id2-1]);
             }
 
             Aresta *aresta = new Aresta(nosLidos[id1-1], nosLidos[id2-1], pesoAresta);
@@ -50,17 +49,18 @@ void GraphFileReader::read(std::string file,
 
         }
 
-        preencherListasVazias(adjacente, ordem);
-        popularAdjacencias(adjacencias, adjacente, ordem);
+        preencherListasVazias(adjacentes, ordem);
+        popularAdjacencias(adjacencias, adjacentes, ordem);
     }
 }
 
 bool GraphFileReader::noJaFoiLido(No* nosLidos[], int id)
 {
-  return nosLidos[id-1]->getId() == id ? true : false;
+  return nosLidos[id-1] != nullptr ? true : false;
 }
 
 bool GraphFileReader::listaContemNo(std::list<No*> lista, No *no) {
+  if(no != NULL) {
     std::list<No*>::iterator i;
     for(i = lista.begin(); i != lista.end(); i++) {
         No *noLista = *i;
@@ -68,25 +68,25 @@ bool GraphFileReader::listaContemNo(std::list<No*> lista, No *no) {
             return true;
         }
     }
-    return false;
+  }
+  return false;
 }
 
-
-void GraphFileReader::preencherListasVazias(std::list<No*> *adjacente, int ordem)
+void GraphFileReader::preencherListasVazias(std::list<No*> *adjacentes, int ordem)
 {
     for(int i = 0; i < ordem; i++) {
-        if(adjacente[i].empty()) {
+        if(adjacentes[i].empty()) {
             No *no = new No(i+1);
-            adjacente[i].push_back(no);
+            adjacentes[i].push_back(no);
         }
     }
 }
 
 void GraphFileReader::popularAdjacencias(std::list<std::list<No*>> &adjacencias,
-                                                   std::list<No*> *adjacente,
+                                                   std::list<No*> *adjacentes,
                                                    int ordem)
 {
     for(int i = 0; i < ordem; i++) {
-        adjacencias.push_back(adjacente[i]);
+        adjacencias.push_back(adjacentes[i]);
     }
 }

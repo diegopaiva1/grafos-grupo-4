@@ -16,7 +16,6 @@ class Grafo
 {
     private:
         int ordem;
-        std::string arquivo;
         std::list<std::list<No*>> adjacencias;
         std::list<Aresta*> arestas;
         std::list<int> sequenciaGrau;
@@ -26,16 +25,16 @@ class Grafo
         Grafo(std::string arquivo);
         Grafo();
         ~Grafo();
+        void setSequenciaGrau();
         int getOrdem();
         bool ehNulo();
         bool ehTrivial();
-        bool ehMultigrafo();
         bool ehCompleto();
-        bool ehKRegular(int k);
         bool ehDigrafo();
         bool ehGrafoGeral();
+        bool ehMultigrafo();
         bool ehBipartido();
-        void setSequenciaGrau();
+        bool ehKRegular(int k);
         void imprimirAdjacencias();
         void imprimirArestas();
         void imprimirVizinhancaFechada(int id);

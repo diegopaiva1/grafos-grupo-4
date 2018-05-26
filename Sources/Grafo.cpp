@@ -26,83 +26,9 @@ void Grafo::setSequenciaGrau()
         int grauNo = lista.size() - 1;
         sequenciaGrau.push_back(grauNo);
     }
-
     sequenciaGrau.sort();
     sequenciaGrau.reverse();
 }
-
-/*
- * ====================================== TODO =========================================
- *
-void Grafo::incluirNo(No *no)
-{
-    bool noExiste = false;
-    std::list<std::list<No*>>::iterator i;
-    for(i = adjacencias.begin(); i != adjacencias.end(); i++) {
-        std::list<No*> lista = *i;
-        No *primeiroNoLista = *lista.begin();
-        if(primeiroNoLista->ehIgualA(no)) {
-            noExiste = true;
-        }
-    }
-
-    if(!noExiste) {
-        this->ordem++;
-        // Cria lista de adjacencia do no informado
-        std::list<No*> lista;
-        lista.push_back(no);
-        // Adiciona nova lista à lista de adjecencias do grafo
-        this->adjacencias.push_back(lista);
-
-        std::ofstream myfile;
-        myfile.open(this->arquivo, std::ios_base::app);
-        myfile << no->getId() << "\n";
-    }
-    else {
-        std::cout << "No ja existe no grafo!" << std::endl;
-    }
-
-}
-
-void Grafo::excluirNo(int id)
-{
-    this->ordem--;
-
-    std::list<std::list<No*>>::iterator i;
-
-    for(i = adjacencias.begin(); i != adjacencias.end(); i++) {
-        std::list<No*> &lista = *i;
-        std::list<No*>::iterator j;
-        for(j = lista.begin(); j != lista.end(); j++) {
-            No *no = *j;
-            if(no->getId() == id) {
-                // TODO
-            }
-        }
-    }
-}
-
-void Grafo::incluirAresta(Aresta *aresta)
-{
-    this->arestas.push_back(aresta);
-
-    std::list<std::list<No*>>::iterator i;
-
-    for(i = adjacencias.begin(); i != adjacencias.end(); i++) {
-        std::list<No*> &lista = *i;
-        No *primeiroNoLista = *lista.begin();
-
-        if(primeiroNoLista->ehIgualA(aresta->getPrimeiroNo())) {
-            lista.push_back(aresta->getSegundoNo());
-        }
-
-        if(primeiroNoLista->ehIgualA(aresta->getSegundoNo())) {
-            lista.push_back(aresta->getPrimeiroNo());
-        }
-    }
-}
-=============================================================================
-*/
 
 int Grafo::getOrdem()
 {
@@ -149,36 +75,6 @@ bool Grafo::ehCompleto()
     }
 }
 
-bool Grafo::ehBipartido()
-{
-  std::list<std::list<No*>>::iterator i;
-  for(i = adjacencias.begin(); i != adjacencias.end(); i++) {
-    std::list<No*> nos = *i;
-    std::list<No*>::iterator j;
-    No *primeiroNo = *nos.begin();
-    if(!primeiroNo->temBipartiteFlag()) {
-      // Aqui é settada a flag, tanto faz se colocar true ou false inicialmente
-      primeiroNo->setBipartiteFlag(false);
-    }
-    for(j = std::next(nos.begin()); j != nos.end(); j++) {
-      No *no = *j;
-      if(!no->temBipartiteFlag()) {
-        bool flag = !primeiroNo->getBipartiteFlag();
-        no->setBipartiteFlag(flag);
-      }
-      else if(no->getBipartiteFlag() == primeiroNo->getBipartiteFlag()) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-bool Grafo::ehGrafoGeral()
-{
-    return possuiSelfLoop() || possuiArestaMultipla();
-}
-
 bool Grafo::ehDigrafo()
 {
     unsigned int arestasNaoDirecionadas = 0;
@@ -205,6 +101,11 @@ bool Grafo::ehDigrafo()
     else {
         return true;
     }
+}
+
+bool Grafo::ehGrafoGeral()
+{
+    return possuiSelfLoop() || possuiArestaMultipla();
 }
 
 bool Grafo::ehMultigrafo()
@@ -240,6 +141,31 @@ bool Grafo::possuiArestaMultipla()
         }
     }
     return false;
+}
+
+bool Grafo::ehBipartido()
+{
+  std::list<std::list<No*>>::iterator i;
+  for(i = adjacencias.begin(); i != adjacencias.end(); i++) {
+    std::list<No*> nos = *i;
+    std::list<No*>::iterator j;
+    No *primeiroNo = *nos.begin();
+    if(!primeiroNo->temBipartiteFlag()) {
+      // Aqui é settada a flag, tanto faz se colocar true ou false inicialmente
+      primeiroNo->setBipartiteFlag(false);
+    }
+    for(j = std::next(nos.begin()); j != nos.end(); j++) {
+      No *no = *j;
+      if(!no->temBipartiteFlag()) {
+        bool flag = !primeiroNo->getBipartiteFlag();
+        no->setBipartiteFlag(flag);
+      }
+      else if(no->getBipartiteFlag() == primeiroNo->getBipartiteFlag()) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 bool Grafo::ehKRegular(int k)

@@ -23,21 +23,20 @@
 
 class GraphFileReader
 {
-    public:
-        static void read(std::string file,
-                         int &ordem,
-                         std::list<Aresta*> &arestas,
-                         std::list<std::list<No*>> &adjacencias);
-    private:
-        static void preencherListasVazias(std::list<No*> *lista, int ordem);
+public:
+  static void read(std::string file,
+                   int &ordem,
+                   std::list<Aresta *> &arestas,
+                   std::list<std::list<No *>> &adjacencias);
+  static void write(std::string file, int data, int posicaoEscrita);
 
-        static void popularAdjacencias(std::list<std::list<No*>> &adjacencias,
-                                                 std::list<No*> *lista,
-                                                 int ordem);
-
-        static bool listaContemNo(std::list<No*> lista, No *no);
-
-        static bool noJaFoiLido(No* nosLidos[], int id);
+private:
+  static void preencherListasVazias(std::list<No *> *lista, int ordem);
+  static void popularAdjacencias(std::list<std::list<No *>> &adjacencias,
+                                 std::list<No *> *lista,
+                                 int ordem);
+  static bool listaContemNo(std::list<No *> lista, No *no);
+  static bool noJaFoiLido(No *nosLidos[], int id);
 };
 
 #endif // GRAPHFILEREADER_H

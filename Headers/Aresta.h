@@ -5,18 +5,18 @@
 
 class Aresta
 {
-    private:
-        No *primeiroNo;
-        No *segundoNo;
-        double peso;
-    public:
-        Aresta(No *primeiroNo, No *segundoNo, double peso);
-        ~Aresta();
-        No* getPrimeiroNo();
-        No* getSegundoNo();
-        double getPeso();
-        bool possuemMesmasExtremidades(Aresta *aresta);
-};
+private:
+  No *primeiroNo;
+  No *segundoNo;
+  double peso;
 
+public:
+  Aresta(No *primeiroNo, No *segundoNo, double peso);
+  ~Aresta();
+  No *getPrimeiroNo();
+  No *getSegundoNo();
+  double getPeso();
+  bool possuemMesmasExtremidades(Aresta *aresta);
+};
 
 #endif // ARESTA_H_INCLUDED

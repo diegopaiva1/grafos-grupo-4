@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <list>
+#include <algorithm> // std::find
 
 #include "GraphFileReader.h"
 #include "Aresta.h"
@@ -21,6 +22,9 @@ private:
   std::list<int> sequenciaGrau;
   bool possuiSelfLoop();
   bool possuiArestaMultipla();
+  void excluirArestasOndeExtremidade(int id);
+  No* inicializarExtremidade(No *extremidade, int idExtremidade);
+  void adicionarNaListaAdjacenciaDoNo(No *no, No *noParaAdicionar);
 
 public:
   Grafo(std::string arquivo);
@@ -47,6 +51,8 @@ public:
   void incluirNo(int id);
   void excluirNo(int id);
   bool possuiNo(int id);
+  void incluirAresta(int idPrimeiraExtremidade, int idSegundaExtremidade, double peso);
+  bool possuiAresta(int idPrimeiraExtremidade, int idSegundaExtremidade, double peso);
 };
 
 #endif // GRAFO_H_INCLUDED

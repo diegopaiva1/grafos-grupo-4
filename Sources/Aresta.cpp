@@ -1,9 +1,9 @@
 #include "../Headers/Aresta.h"
 
-Aresta::Aresta(No *primeiroNo, No *segundoNo, double peso)
+Aresta::Aresta(No *primeiraExtremidade, No *segundaExtremidade, double peso)
 {
-  this->primeiroNo = primeiroNo;
-  this->segundoNo = segundoNo;
+  this->primeiraExtremidade = primeiraExtremidade;
+  this->segundaExtremidade = segundaExtremidade;
   this->peso = peso;
 }
 
@@ -12,14 +12,14 @@ Aresta::~Aresta()
   // destrutor
 }
 
-No *Aresta::getPrimeiroNo()
+No *Aresta::getPrimeiraExtremidade()
 {
-  return this->primeiroNo;
+  return this->primeiraExtremidade;
 }
 
-No *Aresta::getSegundoNo()
+No *Aresta::getSegundaExtremidade()
 {
-  return this->segundoNo;
+  return this->segundaExtremidade;
 }
 
 double Aresta::getPeso()
@@ -29,11 +29,11 @@ double Aresta::getPeso()
 
 bool Aresta::possuemMesmasExtremidades(Aresta *aresta)
 {
-  No *no1 = this->getPrimeiroNo();
-  No *no2 = this->getSegundoNo();
+  No *no1 = this->getPrimeiraExtremidade();
+  No *no2 = this->getSegundaExtremidade();
 
-  No *no3 = aresta->getPrimeiroNo();
-  No *no4 = aresta->getSegundoNo();
+  No *no3 = aresta->getPrimeiraExtremidade();
+  No *no4 = aresta->getSegundaExtremidade();
 
-  return (no1 == no3 && no2 == no4) && (no1 == no4 && no2 == no3);
+  return (no1 == no3 && no2 == no4);
 }

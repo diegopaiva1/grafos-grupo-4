@@ -6,15 +6,15 @@
 class Aresta
 {
 private:
-  No *primeiroNo;
-  No *segundoNo;
+  No *primeiraExtremidade;
+  No *segundaExtremidade;
   double peso;
 
 public:
-  Aresta(No *primeiroNo, No *segundoNo, double peso);
+  Aresta(No *primeiraExtremidade, No *segundaExtremidade, double peso);
   ~Aresta();
-  No *getPrimeiroNo();
-  No *getSegundoNo();
+  No *getPrimeiraExtremidade();
+  No *getSegundaExtremidade();
   double getPeso();
   bool possuemMesmasExtremidades(Aresta *aresta);
 };

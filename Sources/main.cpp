@@ -6,7 +6,7 @@ int main()
 {
   Grafo *grafo = new Grafo("grafo.txt");
   int k = 4;
-  grafo->excluirNo(3);
+  grafo->incluirAresta(3, 2, 28);
   grafo->imprimirAdjacencias();
   cout << endl;
   grafo->imprimirArestas();

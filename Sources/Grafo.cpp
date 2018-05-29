@@ -21,8 +21,7 @@ Grafo::~Grafo()
 void Grafo::setSequenciaGrau()
 {
   sequenciaGrau.clear();
-  std::list<std::list<No *>>::iterator i;
-  for (i = adjacencias.begin(); i != adjacencias.end(); i++)
+  for (auto i = adjacencias.begin(); i != adjacencias.end(); i++)
   {
     std::list<No *> lista = *i;
     // Quantidade de nos adjacentes para cada lista
@@ -70,12 +69,10 @@ bool Grafo::ehCompleto()
   }
   else
   {
-    std::list<int>::iterator i;
     // Comparando as sequencias de grau dois a dois
-    for (i = sequenciaGrau.begin(); i != sequenciaGrau.end(); i++)
+    for (auto i = sequenciaGrau.begin(); i != sequenciaGrau.end(); i++)
     {
-      std::list<int>::iterator j;
-      for (j = std::next(i); j != sequenciaGrau.end(); j++)
+      for (auto j = std::next(i); j != sequenciaGrau.end(); j++)
       {
         if (*i != *j || *i != ordem - 1 || *j != ordem - 1)
         {
@@ -90,19 +87,17 @@ bool Grafo::ehCompleto()
 bool Grafo::ehDigrafo()
 {
   unsigned int arestasNaoDirecionadas = 0;
-  std::list<Aresta *>::iterator i;
-  for (i = arestas.begin(); i != arestas.end(); i++)
+  for (auto i = arestas.begin(); i != arestas.end(); i++)
   {
     Aresta *aresta = *i;
-    No *no1 = aresta->getPrimeiroNo();
-    No *no2 = aresta->getSegundoNo();
+    No *no1 = aresta->getPrimeiraExtremidade();
+    No *no2 = aresta->getSegundaExtremidade();
     double pesoAresta = aresta->getPeso();
-    std::list<Aresta *>::iterator j;
-    for (j = std::next(i); j != arestas.end(); j++)
+    for (auto j = std::next(i); j != arestas.end(); j++)
     {
       Aresta *arestaComparacao = *j;
-      No *no3 = arestaComparacao->getPrimeiroNo();
-      No *no4 = arestaComparacao->getSegundoNo();
+      No *no3 = arestaComparacao->getPrimeiraExtremidade();
+      No *no4 = arestaComparacao->getSegundaExtremidade();
       double pesoArestaComparacao = arestaComparacao->getPeso();
       if (no1 == (no4) && no2 == (no3) && pesoAresta == pesoArestaComparacao)
       {
@@ -132,13 +127,12 @@ bool Grafo::ehMultigrafo()
 
 bool Grafo::possuiSelfLoop()
 {
-  std::list<Aresta *>::iterator i;
-  for (i = arestas.begin(); i != arestas.end(); i++)
+  for (auto i = arestas.begin(); i != arestas.end(); i++)
   {
     Aresta *aresta = *i;
-    No *no1 = aresta->getPrimeiroNo();
-    No *no2 = aresta->getSegundoNo();
-    if (no1 == (no2))
+    No *no1 = aresta->getPrimeiraExtremidade();
+    No *no2 = aresta->getSegundaExtremidade();
+    if (no1 == no2)
     {
       return true;
     }
@@ -148,15 +142,15 @@ bool Grafo::possuiSelfLoop()
 
 bool Grafo::possuiArestaMultipla()
 {
-  std::list<Aresta *>::iterator i;
-  for (i = arestas.begin(); i != arestas.end(); i++)
+  for (auto i = arestas.begin(); i != arestas.end(); i++)
   {
     Aresta *aresta = *i;
-    std::list<Aresta *>::iterator k;
-    for (k = std::next(i); k != arestas.end(); k++)
+    // Compara arestas duas a duas
+    for (auto k = std::next(i); k != arestas.end(); k++)
     {
       Aresta *arestaComparacao = *k;
-      if (aresta->possuemMesmasExtremidades(arestaComparacao) && aresta->getPeso() != arestaComparacao->getPeso())
+      if (aresta->possuemMesmasExtremidades(arestaComparacao) &&
+          aresta->getPeso() != arestaComparacao->getPeso())
       {
         return true;
       }
@@ -167,18 +161,16 @@ bool Grafo::possuiArestaMultipla()
 
 bool Grafo::ehBipartido()
 {
-  std::list<std::list<No *>>::iterator i;
-  for (i = adjacencias.begin(); i != adjacencias.end(); i++)
+  for (auto i = adjacencias.begin(); i != adjacencias.end(); i++)
   {
     std::list<No *> nos = *i;
-    std::list<No *>::iterator j;
     No *primeiroNo = *nos.begin();
     if (!primeiroNo->temBipartiteFlag())
     {
       // Aqui é settada a flag, tanto faz se colocar true ou false inicialmente
       primeiroNo->setBipartiteFlag(false);
     }
-    for (j = std::next(nos.begin()); j != nos.end(); j++)
+    for (auto j = std::next(nos.begin()); j != nos.end(); j++)
     {
       No *no = *j;
       if (!no->temBipartiteFlag())
@@ -216,14 +208,12 @@ bool Grafo::ehKRegular(int k)
 
 void Grafo::imprimirAdjacencias()
 {
-  std::list<std::list<No *>>::iterator i;
   // Itera por cada uma das listas de adjacencia
-  for (i = adjacencias.begin(); i != adjacencias.end(); i++)
+  for (auto i = adjacencias.begin(); i != adjacencias.end(); i++)
   {
     std::list<No *> nos = *i;
-    std::list<No *>::iterator j;
     // Itera por cada um dos nos de cada lista de adjacencia
-    for (j = nos.begin(); j != nos.end(); j++)
+    for (auto j = nos.begin(); j != nos.end(); j++)
     {
       No *no = *j;
       std::cout << no->getId() << " ";
@@ -235,12 +225,11 @@ void Grafo::imprimirAdjacencias()
 void Grafo::imprimirArestas()
 {
   int n = 1;
-  std::list<Aresta *>::iterator i;
-  for (i = arestas.begin(); i != arestas.end(); i++)
+  for (auto i = arestas.begin(); i != arestas.end(); i++)
   {
     Aresta *aresta = *i;
-    std::cout << "Aresta " << n << ": (" << aresta->getPrimeiroNo()->getId() << ", "
-              << aresta->getSegundoNo()->getId() << ") com peso "
+    std::cout << "Aresta " << n << ": (" << aresta->getPrimeiraExtremidade()->getId() << ", "
+              << aresta->getSegundaExtremidade()->getId() << ") com peso "
               << aresta->getPeso() << std::endl;
     n++;
   }
@@ -249,8 +238,7 @@ void Grafo::imprimirArestas()
 void Grafo::imprimirVizinhancaFechada(int id)
 {
   bool idExisteNoGrafo = false;
-  std::list<std::list<No *>>::iterator i;
-  for (i = adjacencias.begin(); i != adjacencias.end(); i++)
+  for (auto i = adjacencias.begin(); i != adjacencias.end(); i++)
   {
     std::list<No *> lista = *i;
     No *primeiroNoLista = *lista.begin();
@@ -276,8 +264,7 @@ void Grafo::imprimirVizinhancaFechada(int id)
 void Grafo::imprimirVizinhancaAberta(int id)
 {
   bool idExisteNoGrafo = false;
-  std::list<std::list<No *>>::iterator i;
-  for (i = adjacencias.begin(); i != adjacencias.end(); i++)
+  for (auto i = adjacencias.begin(); i != adjacencias.end(); i++)
   {
     std::list<No *> lista = *i;
     No *primeiroNoLista = *lista.begin();
@@ -301,9 +288,8 @@ void Grafo::imprimirVizinhancaAberta(int id)
 
 void Grafo::imprimirSequenciaGrau()
 {
-  std::list<int>::iterator i;
   std::cout << "Sequencia de grau do grafo: ";
-  for (i = sequenciaGrau.begin(); i != sequenciaGrau.end(); i++)
+  for (auto i = sequenciaGrau.begin(); i != sequenciaGrau.end(); i++)
   {
     std::cout << *i << " ";
   }
@@ -315,8 +301,7 @@ void Grafo::imprimirGrau(int id)
   unsigned int grauSaida = 0;
   unsigned int grauEntrada = 0;
 
-  std::list<std::list<No *>>::iterator i;
-  for (i = adjacencias.begin(); i != adjacencias.end(); i++)
+  for (auto i = adjacencias.begin(); i != adjacencias.end(); i++)
   {
     std::list<No *> lista = *i;
     No *primeiroNo = *lista.begin();
@@ -351,8 +336,7 @@ void Grafo::imprimirGrau(int id)
 
 No *Grafo::getNo(int id)
 {
-  std::list<std::list<No *>>::iterator i;
-  for (i = adjacencias.begin(); i != adjacencias.end(); i++)
+  for (auto i = adjacencias.begin(); i != adjacencias.end(); i++)
   {
     std::list<No *> lista = *i;
     No *no = *lista.begin();
@@ -385,35 +369,32 @@ void Grafo::incluirNo(int id)
 
 void Grafo::excluirNo(int id)
 {
+  // TODO - Reduzir a ordem em 1 e remover todas as arestas que contem o nó no arquivo texto
   if (this->possuiNo(id))
   {
     ordem--;
-    std::list<std::list<No *>>::iterator i;
-    for (i = adjacencias.begin(); i != adjacencias.end(); i++)
+    for (auto i = adjacencias.begin(); i != adjacencias.end(); /* incrementação condicional */)
     {
-      std::list<No *> nos = *i;
-
-      std::list<No *>::iterator j = nos.begin();
-      while (j != nos.end())
-      {
-        No *no = *j;
-        if (no->getId() == id)
-        {
-          j = nos.erase(j);
-        }
-        else
-        {
-          j++;
-        }
-      }
-      /*
+      std::list<No *> &nos = *i;
       No *primeiroNo = *nos.begin();
-
-      if(primeiroNo->getId() == id) {
+      if (primeiroNo->getId() == id)
+      {
         i = adjacencias.erase(i);
       }
-*/
+      else
+      {
+        for (auto j = nos.begin(); j != nos.end(); j++)
+        {
+          No *no = *j;
+          if (no->getId() == id)
+          {
+            j = nos.erase(j);
+          }
+        }
+        i++;
+      }
     }
+    excluirArestasOndeExtremidade(id);
   }
   else
   {
@@ -423,10 +404,27 @@ void Grafo::excluirNo(int id)
   setSequenciaGrau();
 }
 
+void Grafo::excluirArestasOndeExtremidade(int id)
+{
+  for (auto i = arestas.begin(); i != arestas.end(); /* incrementação condicional */)
+  {
+    Aresta *aresta = *i;
+    No *primeiraExtremidade = aresta->getPrimeiraExtremidade();
+    No *segundaExtremidade = aresta->getSegundaExtremidade();
+    if (primeiraExtremidade->getId() == id || segundaExtremidade->getId() == id)
+    {
+      i = arestas.erase(i);
+    }
+    else
+    {
+      i++;
+    }
+  }
+}
+
 bool Grafo::possuiNo(int id)
 {
-  std::list<std::list<No *>>::iterator i;
-  for (i = adjacencias.begin(); i != adjacencias.end(); i++)
+  for (auto i = adjacencias.begin(); i != adjacencias.end(); i++)
   {
     std::list<No *> nos = *i;
     std::list<No *>::iterator j;
@@ -437,6 +435,84 @@ bool Grafo::possuiNo(int id)
       {
         return true;
       }
+    }
+  }
+  return false;
+}
+
+void Grafo::incluirAresta(int idPrimeiraExtremidade, int idSegundaExtremidade, double peso)
+{
+  if (this->possuiNo(idPrimeiraExtremidade) && this->possuiNo(idSegundaExtremidade))
+  {
+    No *primeiraExtremidade = inicializarExtremidade(primeiraExtremidade, idPrimeiraExtremidade);
+    No *segundaExtremidade = inicializarExtremidade(segundaExtremidade, idSegundaExtremidade);
+
+    if (!this->possuiAresta(idPrimeiraExtremidade, idSegundaExtremidade, peso))
+    {
+      adicionarNaListaAdjacenciaDoNo(primeiraExtremidade, segundaExtremidade);
+      adicionarNaListaAdjacenciaDoNo(segundaExtremidade, primeiraExtremidade);
+
+      Aresta *aresta = new Aresta(primeiraExtremidade, segundaExtremidade, peso);
+      arestas.push_back(aresta);
+      // TODO - Gravar no arquivo texto a nova aresta
+    }
+    else
+    {
+      std::cout << "Erro: aresta ja existente no grafo." << std::endl;
+    }
+  }
+  else
+  {
+    std::cout << "Erro: pelo menos um dos nós não existe no grafo." << std::endl;
+  }
+
+  setSequenciaGrau();
+}
+
+No* Grafo::inicializarExtremidade(No *extremidade, int idExtremidade)
+{
+  for (auto i = adjacencias.begin(); i != adjacencias.end(); i++)
+  {
+    std::list<No *> nos = *i;
+    for (auto j = nos.begin(); j != nos.end(); j++)
+    {
+      No *no = *j;
+      if (no->getId() == idExtremidade)
+      {
+        extremidade = no;
+      }
+    }
+  }
+  return extremidade;
+}
+
+void Grafo::adicionarNaListaAdjacenciaDoNo(No *no, No *noParaAdicionar)
+{
+  for (auto i = adjacencias.begin(); i != adjacencias.end(); i++)
+  {
+    std::list<No *> &nos = *i;
+    No *primeiroNo = *nos.begin();
+    bool nosContemNoParaAdicionar = (std::find(nos.begin(), nos.end(), noParaAdicionar) != nos.end());
+    if (primeiroNo == no && !nosContemNoParaAdicionar)
+    {
+      nos.push_back(noParaAdicionar);
+    }
+  }
+}
+
+bool Grafo::possuiAresta(int idPrimeiraExtremidade, int idSegundaExtremidade, double peso)
+{
+  for (auto i = arestas.begin(); i != arestas.end(); i++)
+  {
+    Aresta *aresta = *i;
+    No *primeiraExtremidade = aresta->getPrimeiraExtremidade();
+    No *segundaExtremidade = aresta->getSegundaExtremidade();
+    double pesoAresta = aresta->getPeso();
+    if (primeiraExtremidade->getId() == idPrimeiraExtremidade &&
+        segundaExtremidade->getId() == idSegundaExtremidade &&
+        pesoAresta == peso)
+    {
+      return true;
     }
   }
   return false;

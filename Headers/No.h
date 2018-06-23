@@ -1,33 +1,32 @@
-/* Esta classe representa os nós do grafo.
+/* Esta classe representa os nós de um grafo.
  *
  * Cada nó conta com um id único e dois nós são considerados iguais quando seus
- * ids são iguais. O operador '==' foi sobrecarregado para avaliar este critério.
- * O atributo 'bipartiteFlag' é utilizado para 'colorir' o nó, sendo util para
- * determinar se um grafo é ou não bipartido.
+ * ids são iguais.
+ *
+ * O atributo 'bipartiteFlag' é utilizado para 'colorir' o nó com 0 ou 1, sendo util
+ * para determinar se um grafo é ou não bipartido.
+ *
+ * Todos os atributos são públicos por se tratar de uma estrutura de dados.
  */
 
 #ifndef NO_H_INCLUDED
 #define NO_H_INCLUDED
 
 #include <iostream>
+#include <list>
+#include <climits> // INT_MAX
 
 class No
 {
-private:
-  int id;
-  bool bipartiteFlag;
-
 public:
   No(int id);
   No();
   ~No();
+  int id;
+  std::list<No *> adjacentes;
+  int bipartiteFlag;
   bool operator==(const No &no) const;
   bool operator!=(const No &no) const;
-  int getId();
-  bool getBipartiteFlag();
-  void setBipartiteFlag(bool bipartiteFlag);
-  void setId(int id);
-  bool temBipartiteFlag();
 };
 
 #endif // NO_H_INCLUDED

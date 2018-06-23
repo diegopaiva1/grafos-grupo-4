@@ -9,9 +9,8 @@
 #include <list>
 #include <algorithm> // std::find
 
-#include "LeitorArquivoGrafo.h"
-#include "Arco.h"
-#include "Grafo.h"
+#include "../../Componentes/Grafo/Grafo.h"
+#include "../No/NoUtils.h"
 
 class GrafoUtils
 {

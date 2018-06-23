@@ -9,8 +9,7 @@
 #include <iostream>
 #include <list>
 
-#include "Arco.h"
-#include "No.h"
+#include "./Arco/Arco.h"
 
 class Grafo
 {

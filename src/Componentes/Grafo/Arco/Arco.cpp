@@ -1,4 +1,4 @@
-#include "../Headers/Arco.h"
+#include "./Arco.h"
 
 Arco::Arco(No *no1, No *no2, double peso)
 {

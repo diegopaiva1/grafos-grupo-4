@@ -1,4 +1,4 @@
-#include "../Headers/NoUtils.h"
+#include "./NoUtils.h"
 
 bool NoUtils::possuiAdjacenteComId(No *no, int id)
 {

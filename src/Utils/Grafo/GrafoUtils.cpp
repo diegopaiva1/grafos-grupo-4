@@ -1,4 +1,4 @@
-#include "../Headers/GrafoUtils.h"
+#include "./GrafoUtils.h"
 
 bool GrafoUtils::ehNulo(Grafo& grafo)
 {
@@ -124,7 +124,7 @@ bool GrafoUtils::ehKRegular(Grafo& grafo, int k)
 
 bool GrafoUtils::ehDigrafo(Grafo &grafo)
 {
-  int arestas = 0;
+  unsigned int arestas = 0;
   for (auto i = grafo.arcos.begin(); i != grafo.arcos.end(); i++)
   {
     Arco *arco = *i;

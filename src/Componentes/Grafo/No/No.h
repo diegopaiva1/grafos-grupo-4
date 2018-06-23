@@ -5,8 +5,6 @@
  *
  * O atributo 'bipartiteFlag' é utilizado para 'colorir' o nó com 0 ou 1, sendo util
  * para determinar se um grafo é ou não bipartido.
- *
- * Todos os atributos são públicos por se tratar de uma estrutura de dados.
  */
 
 #ifndef NO_H_INCLUDED
@@ -23,10 +21,12 @@ public:
   No();
   ~No();
   int id;
+  int grauSaida;
+  int grauEntrada;
   std::list<No *> adjacentes;
   int bipartiteFlag;
-  bool operator==(const No &no) const;
-  bool operator!=(const No &no) const;
+  bool operator==(const No& no) const;
+  bool operator!=(const No& no) const;
 };
 
 #endif // NO_H_INCLUDED

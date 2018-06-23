@@ -19,10 +19,9 @@
 #include <string>
 #include <list>
 
-#include "Grafo.h"
-#include "Arco.h"
-#include "GrafoUtils.h"
-#include "NoUtils.h"
+#include "../../Grafo/Grafo.h"
+#include "../../../Utils/Grafo/GrafoUtils.h"
+#include "../../../Utils/No/NoUtils.h"
 
 class LeitorArquivoGrafo
 {

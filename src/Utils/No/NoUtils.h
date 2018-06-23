@@ -5,9 +5,7 @@
 #include <list>
 #include <algorithm> // std::find
 
-#include "LeitorArquivoGrafo.h"
-#include "Arco.h"
-#include "Grafo.h"
+#include "../../Componentes/Grafo/No/No.h"
 
 class NoUtils
 {

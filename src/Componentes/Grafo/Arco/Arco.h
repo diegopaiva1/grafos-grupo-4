@@ -1,7 +1,7 @@
 #ifndef ARCO_H_INCLUDED
 #define ARCO_H_INCLUDED
 
-#include "No.h"
+#include "../No/No.h"
 
 class Arco
 {

@@ -1,4 +1,4 @@
-#include "../Headers/LeitorArquivoGrafo.h"
+#include "./LeitorArquivoGrafo.h"
 
 void LeitorArquivoGrafo::atribuirDados(std::string arquivo, Grafo& grafo)
 {
@@ -35,6 +35,9 @@ void LeitorArquivoGrafo::atribuirDados(std::string arquivo, Grafo& grafo)
       No *no1 = GrafoUtils::getNo(grafo, id1);
       No *no2 = GrafoUtils::getNo(grafo, id2);
 
+      no1->grauSaida++;
+      no2->grauEntrada++;
+
       Arco *arco = new Arco(no1, no2, pesoArco);
       grafo.arcos.push_back(arco);
     }
@@ -47,8 +50,7 @@ void LeitorArquivoGrafo::setSequenciaGrau(Grafo& grafo)
   for (auto i = grafo.nos.begin(); i != grafo.nos.end(); i++)
   {
     No *no = *i;
-    int grau = no->adjacentes.size();
-    grafo.sequenciaGrau.push_back(grau);
+    grafo.sequenciaGrau.push_back(no->grauSaida);
   }
   grafo.sequenciaGrau.sort();
   grafo.sequenciaGrau.reverse();

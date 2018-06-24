@@ -20,21 +20,11 @@ int main()
   cout << "Guloso subconjunto independente máximo:" << endl;
   cout << guloso->subconjuntoIndependenteMaximo(grafo).size() << endl;
 
-  cout << "Guloso randomizado subconjunto independente máximo (alpha = 0.01, n = 1000):" << endl;
-  cout << gulosoRandomizado->subconjuntoIndependenteMaximo(grafo, 0.01, 1000).size() << endl;
-
-  cout << "Guloso randomizado subconjunto independente máximo (alpha = 0.02, n = 1000):" << endl;
-  cout << gulosoRandomizado->subconjuntoIndependenteMaximo(grafo, 0.02, 1000).size() << endl;
-
-  cout << "Guloso randomizado subconjunto independente máximo (alpha = 0.03, n = 1000):" << endl;
-  cout << gulosoRandomizado->subconjuntoIndependenteMaximo(grafo, 0.03, 1000).size() << endl;
-
-  cout << "Guloso randomizado subconjunto independente máximo (alpha = 0.04, n = 1000):" << endl;
-  cout << gulosoRandomizado->subconjuntoIndependenteMaximo(grafo, 0.04, 1000).size() << endl;
-
-  cout << "Guloso randomizado subconjunto independente máximo (alpha = 0.05, n = 1000):" << endl;
-  cout << gulosoRandomizado->subconjuntoIndependenteMaximo(grafo, 0.05, 1000).size() << endl;
-
-  cout << "Guloso randomizado subconjunto independente máximo (alpha = 0.06, n = 1000):" << endl;
-  cout << gulosoRandomizado->subconjuntoIndependenteMaximo(grafo, 0.06, 1000).size() << endl;
+  for (float i = 0.01; i <= 0.10; i += 0.01)
+  {
+    cout <<
+    "Guloso randomizado subconjunto independente máximo (alpha = " << i << ", n = 1000):"
+    << endl;
+    cout << gulosoRandomizado->subconjuntoIndependenteMaximo(grafo, i, 1000).size() << endl;
+  }
 }

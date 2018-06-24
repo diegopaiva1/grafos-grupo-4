@@ -20,7 +20,7 @@ int main()
   cout << "Guloso subconjunto independente máximo:" << endl;
   cout << guloso->subconjuntoIndependenteMaximo(grafo).size() << endl;
 
-  for (float i = 0.01; i <= 0.10; i += 0.01)
+  for (float i = 0.01; i <= 0.07; i += 0.01)
   {
     cout <<
     "Guloso randomizado subconjunto independente máximo (alpha = " << i << ", n = 1000):"

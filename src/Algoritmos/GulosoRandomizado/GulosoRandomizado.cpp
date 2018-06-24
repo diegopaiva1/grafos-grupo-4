@@ -1,6 +1,7 @@
 #include "./GulosoRandomizado.h"
 
-int GulosoRandomizado::subconjuntoIndependenteMaximoRand(Grafo *grafo, float alpha, int iteracoesMaximas)
+std::list<No *> GulosoRandomizado::subconjuntoIndependenteMaximo(Grafo *grafo, float alpha,
+                                                                 int iteracoesMaximas)
 {
   std::list<No *> solucao;
   std::list<No *> melhorSolucao;
@@ -25,7 +26,7 @@ int GulosoRandomizado::subconjuntoIndependenteMaximoRand(Grafo *grafo, float alp
     }
     solucao.clear();
   }
-  return melhorSolucao.size();
+  return melhorSolucao;
 }
 
 int GulosoRandomizado::gerarInteiroAleatorioEntre(int limiteInferior, int limiteSuperior)

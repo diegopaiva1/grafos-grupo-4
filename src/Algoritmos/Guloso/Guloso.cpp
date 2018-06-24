@@ -1,6 +1,6 @@
 #include "./Guloso.h"
 
-int Guloso::subconjuntoIndependenteMaximo(Grafo *grafo)
+std::list<No *> Guloso::subconjuntoIndependenteMaximo(Grafo *grafo, float alpha, int iteracoesMaximas)
 {
   std::list<No *> solucao;
   std::vector<No *> candidatos;
@@ -17,7 +17,7 @@ int Guloso::subconjuntoIndependenteMaximo(Grafo *grafo)
     removerNoDosCandidatos(noEscolhido, candidatos);
   }
 
-  return solucao.size();
+  return solucao;
 }
 
 void Guloso::preencherCandidatos(std::vector<No *> &candidatos, Grafo *grafo)

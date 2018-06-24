@@ -13,9 +13,12 @@
 class GulosoRandomizado : public Guloso
 {
 protected:
-  static int gerarInteiroAleatorioEntre(int limiteInferior, int limiteSuperior);
+  int gerarInteiroAleatorioEntre(int limiteInferior, int limiteSuperior);
 public:
-  static int subconjuntoIndependenteMaximoRand(Grafo *grafo, float alpha, int iteracoesMaximas);
+  GulosoRandomizado() {};
+  ~GulosoRandomizado() {};
+  virtual std::list<No *> subconjuntoIndependenteMaximo(Grafo *grafo, float alpha,
+                                                        int iteracoesMaximas);
 };
 
 #endif // GULOSORANDOMIZADO_H_INCLUDED

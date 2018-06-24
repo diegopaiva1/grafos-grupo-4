@@ -17,13 +17,16 @@
 class Guloso
 {
 protected:
-  static void preencherCandidatos(std::vector<No *> &candidatos, Grafo *grafo);
-  static void ordenarCandidatosPor(std::vector<No *> &candidatos, bool (*criterio)(No *no1, No *no2));
+  void preencherCandidatos(std::vector<No *> &candidatos, Grafo *grafo);
+  void ordenarCandidatosPor(std::vector<No *> &candidatos, bool (*criterio)(No *no1, No *no2));
   static bool grauCrescente(No *no1, No *no2);
-  static void removerVizinhosDoNoEscolhidoDosCandidatos(No *no, std::vector<No *> &candidatos);
-  static void removerNoDosCandidatos(No *no, std::vector<No *> &candidatos);
+  void removerVizinhosDoNoEscolhidoDosCandidatos(No *no, std::vector<No *> &candidatos);
+  void removerNoDosCandidatos(No *no, std::vector<No *> &candidatos);
 public:
-  static int subconjuntoIndependenteMaximo(Grafo *grafo);
+  Guloso() {};
+  ~Guloso() {};
+  virtual std::list<No *> subconjuntoIndependenteMaximo(Grafo *grafo, float alpha = 0,
+                                                        int iteracoesMaximas = 1);
 };
 
 #endif // GULOSO_H_INCLUDED

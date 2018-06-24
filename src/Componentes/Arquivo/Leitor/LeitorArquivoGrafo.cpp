@@ -18,7 +18,7 @@ void LeitorArquivoGrafo::atribuirDados(std::string arquivo, Grafo& grafo)
     arq >> grafo.ordem;
 
     // Demais linhas
-    while (arq >> id1 >> id2 >> pesoArco)
+    while (arq >> id1 >> id2)
     {
       if (!GrafoUtils::possuiNo(grafo, id1))
       {
@@ -38,7 +38,7 @@ void LeitorArquivoGrafo::atribuirDados(std::string arquivo, Grafo& grafo)
       no1->grauSaida++;
       no2->grauEntrada++;
 
-      Arco *arco = new Arco(no1, no2, pesoArco);
+      Arco *arco = new Arco(no1, no2, 0);
       grafo.arcos.push_back(arco);
     }
     setSequenciaGrau(grafo);

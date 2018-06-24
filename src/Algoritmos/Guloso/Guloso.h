@@ -1,4 +1,4 @@
-/* Esta classe implementa algortimos gulosos para resolver alguns problemas pertencentes
+/* Esta classe implementa algoritmos gulosos para resolver alguns problemas pertencentes
  * à classe de problemas NP-completo.
  *
  * Problemas disponíveis:
@@ -16,7 +16,7 @@
 
 class Guloso
 {
-private:
+protected:
   static void preencherCandidatos(std::vector<No *> &candidatos, Grafo *grafo);
   static void ordenarCandidatosPor(std::vector<No *> &candidatos, bool (*criterio)(No *no1, No *no2));
   static bool grauCrescente(No *no1, No *no2);

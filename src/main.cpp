@@ -1,11 +1,13 @@
 #include "./Componentes/Grafo/Grafo.h"
 #include "./Componentes/Arquivo/Leitor/LeitorArquivoGrafo.h"
 #include "./Algoritmos/Guloso/Guloso.h"
+#include "./Algoritmos/GulosoRandomizado/GulosoRandomizado.h"
 
 using namespace std;
 
 int main()
 {
+  srand(time(NULL));
   Grafo *grafo = new Grafo();
 
   LeitorArquivoGrafo::atribuirDados("grafo.txt", *grafo);
@@ -48,7 +50,16 @@ int main()
   // GrafoUtils::ehDigrafo(*grafo)           ? std::cout << "É digrafo" << std::endl
   //                                         : std::cout << "Não é digrafo" << std::endl;
 
-  int tamanhoMaiorConjunto = Guloso::subconjuntoIndependenteMaximo(grafo);
-  cout << "Tamanho do subconjunto independente máximo = " << tamanhoMaiorConjunto << endl;
-
+  cout << "Guloso subconjunto independente máximo:" << endl;
+  cout << Guloso::subconjuntoIndependenteMaximo(grafo) << endl;
+  cout << "Guloso randomizado subconjunto independente máximo (alpha = 0.1, n = 1000):" << endl;
+  cout << GulosoRandomizado::subconjuntoIndependenteMaximoRand(grafo, 0.1, 1000) << endl;
+  cout << "Guloso randomizado subconjunto independente máximo (alpha = 0.2, n = 1000):" << endl;
+  cout << GulosoRandomizado::subconjuntoIndependenteMaximoRand(grafo, 0.2, 1000) << endl;
+  cout << "Guloso randomizado subconjunto independente máximo (alpha = 0.3, n = 1000):" << endl;
+  cout << GulosoRandomizado::subconjuntoIndependenteMaximoRand(grafo, 0.3, 1000) << endl;
+    cout << "Guloso randomizado subconjunto independente máximo (alpha = 0.45, n = 1000):" << endl;
+  cout << GulosoRandomizado::subconjuntoIndependenteMaximoRand(grafo, 0.45, 1000) << endl;
+  cout << "Guloso randomizado subconjunto independente máximo (alpha = 0.65, n = 1000):" << endl;
+  cout << GulosoRandomizado::subconjuntoIndependenteMaximoRand(grafo, 0.65, 1000) << endl;
 }

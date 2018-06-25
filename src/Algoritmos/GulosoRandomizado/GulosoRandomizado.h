@@ -8,6 +8,8 @@
 #ifndef GULOSORANDOMIZADO_H_INCLUDED
 #define GULOSORANDOMIZADO_H_INCLUDED
 
+#include <cmath> // ceil
+
 #include "../Guloso/Guloso.h"
 
 class GulosoRandomizado : public Guloso

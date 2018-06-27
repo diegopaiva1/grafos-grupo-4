@@ -16,9 +16,7 @@ std::list<No *> GulosoRandomizado::subconjuntoIndependenteMaximo(Grafo *grafo, f
       int posicao = gerarInteiroAleatorioEntre(0, ceil(candidatos.size() * alpha));
       No *noEscolhido = candidatos.at(posicao);
       solucao.push_back(noEscolhido);
-      // Critério de atualização dos candidatos
-      removerVizinhosDoNoEscolhidoDosCandidatos(noEscolhido, candidatos);
-      removerNoDosCandidatos(noEscolhido, candidatos);
+      atualizarCandidatos(noEscolhido, candidatos);
     }
     if(solucao.size() > melhorSolucao.size())
     {

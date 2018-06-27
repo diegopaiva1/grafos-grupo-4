@@ -12,9 +12,7 @@ std::list<No *> Guloso::subconjuntoIndependenteMaximo(Grafo *grafo, float alpha,
   {
     No *noEscolhido = candidatos.at(0);
     solucao.push_back(noEscolhido);
-    // Critério de atualização dos candidatos
-    removerVizinhosDoNoEscolhidoDosCandidatos(noEscolhido, candidatos);
-    removerNoDosCandidatos(noEscolhido, candidatos);
+    atualizarCandidatos(noEscolhido, candidatos);
   }
 
   return solucao;
@@ -37,6 +35,12 @@ void Guloso::ordenarCandidatosPor(std::vector<No *> &candidatos, bool (*criterio
 bool Guloso::grauCrescente(No *no1, No *no2)
 {
   return no1->grauSaida < no2->grauSaida;
+}
+
+void Guloso::atualizarCandidatos(No *noEscolhido, std::vector<No *> &candidatos)
+{
+  removerVizinhosDoNoEscolhidoDosCandidatos(noEscolhido, candidatos);
+  removerNoDosCandidatos(noEscolhido, candidatos);
 }
 
 void Guloso::removerVizinhosDoNoEscolhidoDosCandidatos(No *no, std::vector<No *> &candidatos)

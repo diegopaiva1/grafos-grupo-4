@@ -20,6 +20,7 @@ protected:
   void preencherCandidatos(std::vector<No *> &candidatos, Grafo *grafo);
   void ordenarCandidatosPor(std::vector<No *> &candidatos, bool (*criterio)(No *no1, No *no2));
   static bool grauCrescente(No *no1, No *no2);
+  virtual void atualizarCandidatos(No *no, std::vector<No *> &candidatos);
   void removerVizinhosDoNoEscolhidoDosCandidatos(No *no, std::vector<No *> &candidatos);
   void removerNoDosCandidatos(No *no, std::vector<No *> &candidatos);
 public:

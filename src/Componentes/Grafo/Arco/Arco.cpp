@@ -6,6 +6,7 @@ Arco::Arco(No *no1, No *no2, double peso)
   this->no2 = no2;
   this->peso = peso;
   this->no1->adjacentes.push_back(no2);
+  this->no2->adjacentes.push_back(no1);
 }
 
 Arco::~Arco()

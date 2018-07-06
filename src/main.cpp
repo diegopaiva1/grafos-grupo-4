@@ -13,7 +13,7 @@ int main()
 
   Grafo *grafo = new Grafo();
 
-  LeitorArquivoGrafo::atribuirDados("grafo.txt", *grafo);
+  LeitorArquivoGrafo::atribuirDados("Instancias/1534/frb59-26-mis/frb59-26-1.mis", *grafo);
 
   Guloso *guloso = new Guloso();
   GulosoRandomizado *gulosoRandomizado = new GulosoRandomizado();
@@ -24,12 +24,12 @@ int main()
 
   for (float i = 0.10; i < 0.40; i += 0.10)
   {
-    std::list<No *> solucao = gulosoRandomizado->subconjuntoIndependenteMaximo(grafo, i, 1000);
+    list<No *> solucao = gulosoRandomizado->subconjuntoIndependenteMaximo(grafo, i, 1000);
     cout << "Guloso randomizado subconjunto independente máximo (alpha = " << i << ", n = 1000):\n";
     cout << solucao.size() << endl;
   }
 
-  std::list<No *> solucao = gulosoRandomizadoReativo->subconjuntoIndependenteMaximo(grafo, 50, 1000);
-  cout << "Guloso randomizado reativo (blocos = 100, n = 1000)\n";
-  cout << solucao.size() << endl;
+  // std::list<No *> solucao = gulosoRandomizadoReativo->subconjuntoIndependenteMaximo(grafo, 100, 1000);
+  // cout << "Guloso randomizado reativo (blocos = 100, n = 1000)\n";
+  // cout << solucao.size() << endl;
 }

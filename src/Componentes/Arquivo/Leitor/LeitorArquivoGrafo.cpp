@@ -36,6 +36,9 @@ void LeitorArquivoGrafo::atribuirDados(std::string arquivo, Grafo& grafo)
       No *no2 = GrafoUtils::getNo(grafo, id2);
 
       no1->grauSaida++;
+      no2->grauSaida++;
+
+      no1->grauEntrada++;
       no2->grauEntrada++;
 
       Arco *arco = new Arco(no1, no2, 0);

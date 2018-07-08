@@ -17,6 +17,7 @@ class GrafoUtils
 private:
   static void atualizarSequenciaGrau(Grafo& grafo);
   static void excluirArcosComIdIgualA(Grafo& grafo, int id);
+  static void buscaEmProfundidade(No *no);
 public:
   static bool ehNulo(Grafo& grafo);
   static bool ehTrivial(Grafo& grafo);
@@ -33,6 +34,7 @@ public:
   static void incluirNo(Grafo& grafo, int id);
   static void incluirArco(Grafo& grafo, Arco *arco);
   static void excluirNo(Grafo& grafo, int id);
+  static int obterQuantidadeComponentesConexas(Grafo &grafo);
   static No* getNo(Grafo& grafo, int id);
   static void imprimirAdjacencias(Grafo& grafo);
   static void imprimirArcos(Grafo& grafo);

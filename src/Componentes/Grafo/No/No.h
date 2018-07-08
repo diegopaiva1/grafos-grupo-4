@@ -25,6 +25,7 @@ public:
   int grauEntrada;
   std::list<No *> adjacentes;
   int bipartiteFlag;
+  bool visitado;
   bool operator==(const No& no) const;
   bool operator!=(const No& no) const;
 };

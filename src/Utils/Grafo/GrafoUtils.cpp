@@ -274,6 +274,39 @@ void GrafoUtils::excluirNo(Grafo &grafo, int id)
   atualizarSequenciaGrau(grafo);
 }
 
+int GrafoUtils::obterQuantidadeComponentesConexas(Grafo& grafo)
+{
+  int quantidadeComponentesConexas = 0;
+  for (auto i = grafo.nos.begin(); i != grafo.nos.end(); i++)
+  {
+    No *no = *i;
+    no->visitado = false;
+  }
+  for (auto i = grafo.nos.begin(); i != grafo.nos.end(); i++)
+  {
+    No *no = *i;
+    if(!no->visitado)
+    {
+      quantidadeComponentesConexas++;
+      buscaEmProfundidade(no);
+    }
+  }
+  return quantidadeComponentesConexas;
+}
+
+void GrafoUtils::buscaEmProfundidade(No *no)
+{
+  no->visitado = true;
+  for (auto i = no->adjacentes.begin(); i != no->adjacentes.end(); i++)
+  {
+    No *adjacente = *i;
+    if(!adjacente->visitado)
+    {
+      buscaEmProfundidade(adjacente);
+    }
+  }
+}
+
 void GrafoUtils::excluirArcosComIdIgualA(Grafo& grafo, int id)
 {
   for (auto i = grafo.arcos.begin(); i != grafo.arcos.end(); /* incrementação condicional */)

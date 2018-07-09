@@ -16,9 +16,6 @@ int main()
 
   LeitorArquivoGrafo::atribuirDados("grafo.txt", *grafo);
 
-  GrafoUtils::imprimirAdjacencias(*grafo);
-  cout << "Componentes conexas: " << GrafoUtils::obterQuantidadeComponentesConexas(*grafo) << endl;
-
   // Guloso *guloso = new Guloso();
   // GulosoRandomizado *gulosoRandomizado = new GulosoRandomizado();
   // GulosoRandomizadoReativo *gulosoRandomizadoReativo = new GulosoRandomizadoReativo();

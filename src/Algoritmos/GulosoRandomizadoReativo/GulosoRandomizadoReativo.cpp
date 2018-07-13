@@ -28,7 +28,6 @@ std::list<No *> GulosoRandomizadoReativo::subconjuntoIndependenteMaximo(Grafo *g
     ordenarCandidatosPor(candidatos, grauCrescente);
     if(i % tamanhoBlocoAtualizacao == 0)
     {
-      std::cout << "Probabilidade atualizada:" << std::endl;
       atualizarProbabilidades(probabilidade, q);
     }
     int indiceAlpha = escolherIndiceAlpha(probabilidade);
@@ -52,8 +51,7 @@ std::list<No *> GulosoRandomizadoReativo::subconjuntoIndependenteMaximo(Grafo *g
     // --------------------------*---------------------------------- //
     solucao.clear();
   }
-
-  std::cout << "Melhor alpha = " << melhorAlpha << std::endl;
+  std::cout << "Melhor alpha reativo: " << melhorAlpha << std::endl;
   return melhorSolucao;
 }
 
@@ -63,7 +61,6 @@ void GulosoRandomizadoReativo::atualizarProbabilidades(float *probabilidade, flo
   {
     probabilidade[i] = q[i]/somatorio(q);
     probabilidade[i] *= 1000;
-    std::cout << probabilidade[i] << std::endl;
   }
 }
 

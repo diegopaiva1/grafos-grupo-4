@@ -1,36 +1,56 @@
-#include "./Componentes/Grafo/Grafo.h"
-#include "./Componentes/Arquivo/Leitor/LeitorArquivoGrafo.h"
-#include "./Componentes/Menu/Menu.h"
-
-using namespace std;
+#include "Node.hpp"
+#include "Algoritmos/searching/Backtracking.hpp"
 
 int main(int argc, char* argv[])
 {
-  // Initialize random seed
-  srand(time(NULL));
+  Node *nos[9];
 
-  // Arquivos passados por linha de comando
-  string arquivoEntrada = argv[1];
-  string arquivoSaida = argv[2];
-
-  Menu *menu = new Menu();
-  Grafo *grafo = new Grafo();
-  char opcao;
-
-  LeitorArquivoGrafo::atribuirDados(arquivoEntrada, *grafo);
-
-  menu->exibir();
-
-  cout << "\nEscolha uma opção: ";
-  cin >> opcao;
-
-  while(!menu->possuiOpcao(opcao))
+  for (int i = 0; i < 9; i++)
   {
-    cout << "Opção inválida! Escolha uma opção válida: ";
-    cin >> opcao;
+    nos[i] = new Node(i);
   }
 
-  menu->acionarAcao(*grafo, opcao, arquivoSaida);
+  nos[0]->adjacentes.push_back(nos[7]);
+
+  nos[1]->adjacentes.push_back(nos[2]);
+  nos[1]->adjacentes.push_back(nos[7]);
+
+  nos[2]->adjacentes.push_back(nos[1]);
+
+  nos[3]->adjacentes.push_back(nos[7]);
+
+  nos[4]->adjacentes.push_back(nos[5]);
+  nos[4]->adjacentes.push_back(nos[7]);
+
+  nos[5]->adjacentes.push_back(nos[4]);
+  nos[5]->adjacentes.push_back(nos[6]);
+  nos[5]->adjacentes.push_back(nos[8]);
+
+  nos[6]->adjacentes.push_back(nos[5]);
+
+  nos[7]->adjacentes.push_back(nos[0]);
+  nos[7]->adjacentes.push_back(nos[1]);
+  nos[7]->adjacentes.push_back(nos[3]);
+  nos[7]->adjacentes.push_back(nos[4]);
+
+  nos[8]->adjacentes.push_back(nos[5]);
+
+  Backtracking *backtracking = new Backtracking();
+
+  try
+  {
+    std::list<Node *> path = backtracking->getPath(nos[0], nos[8]);
+    std::cout << "Solução: ";
+    for (auto i = path.rbegin(); i != path.rend(); i++)
+    {
+      Node *node = *i;
+      std::cout << node->id << " ";
+    }
+  }
+  catch (char const* exception)
+  {
+    std::cerr << exception << std::endl;
+  }
 
   return 0;
 }

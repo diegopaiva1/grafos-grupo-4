@@ -62,7 +62,7 @@ public:
       }
     }
 
-    if (ancestors.empty())
+    if (ancestors.size() == 1)
     {
       throw "Não há solução possível entre os dois nós fornecidos.";
     }

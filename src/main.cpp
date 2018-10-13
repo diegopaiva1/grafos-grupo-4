@@ -3,9 +3,9 @@
 
 int main(int argc, char* argv[])
 {
-  Node *nos[9];
+  Node *nos[10];
 
-  for (int i = 0; i < 9; i++)
+  for (int i = 0; i < 10; i++)
   {
     nos[i] = new Node(i);
   }
@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
 
   try
   {
-    std::list<Node *> path = backtracking->getPath(nos[0], nos[8]);
+    std::list<Node *> path = backtracking->getPath(nos[0], nos[9]);
     std::cout << "Solução: ";
     for (auto i = path.rbegin(); i != path.rend(); i++)
     {

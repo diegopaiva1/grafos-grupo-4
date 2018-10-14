@@ -1,51 +1,60 @@
 #include "Node.hpp"
 #include "Algoritmos/searching/Backtracking.hpp"
+#include "Algoritmos/searching/DepthFirstSearch.hpp"
+#include <fstream>
+
+void read(std::string arquivo, std::vector<Node *> &nos)
+{
+  int id1;
+  int id2;
+  int size;
+
+  std::ifstream arq(arquivo);
+
+  if (!arq.is_open())
+  {
+    std::cout << "Erro na leitura do arquivo" << std::endl;
+    exit(0);
+  }
+  else
+  {
+    // Eis a primeira linha
+    arq >> size;
+    nos.resize(size + 1);
+
+    // Demais linhas
+    while (arq >> id1 >> id2)
+    {
+      if (nos.at(id1) == NULL)
+      {
+        nos.at(id1) = new Node(id1);
+      }
+
+      if (nos.at(id2) == NULL)
+      {
+        nos.at(id2) = new Node(id2);
+      }
+
+      nos.at(id1)->adjacentes.push_back(nos.at(id2));
+    }
+  }
+}
 
 int main(int argc, char* argv[])
 {
-  Node *nos[10];
+  std::string file = argv[1];
 
-  for (int i = 0; i < 10; i++)
-  {
-    nos[i] = new Node(i);
-  }
+  std::vector<Node *> nos;
 
-  nos[0]->adjacentes.push_back(nos[7]);
-
-  nos[1]->adjacentes.push_back(nos[2]);
-  nos[1]->adjacentes.push_back(nos[7]);
-
-  nos[2]->adjacentes.push_back(nos[1]);
-
-  nos[3]->adjacentes.push_back(nos[7]);
-
-  nos[4]->adjacentes.push_back(nos[5]);
-  nos[4]->adjacentes.push_back(nos[7]);
-
-  nos[5]->adjacentes.push_back(nos[4]);
-  nos[5]->adjacentes.push_back(nos[6]);
-  nos[5]->adjacentes.push_back(nos[8]);
-
-  nos[6]->adjacentes.push_back(nos[5]);
-
-  nos[7]->adjacentes.push_back(nos[0]);
-  nos[7]->adjacentes.push_back(nos[1]);
-  nos[7]->adjacentes.push_back(nos[3]);
-  nos[7]->adjacentes.push_back(nos[4]);
-
-  nos[8]->adjacentes.push_back(nos[5]);
+  read(file, nos);
 
   Backtracking *backtracking = new Backtracking();
+  DepthFirstSearch *depthFirstSearch = new DepthFirstSearch();
 
   try
   {
-    std::list<Node *> path = backtracking->getPath(nos[0], nos[9]);
-    std::cout << "Solução: ";
-    for (auto i = path.rbegin(); i != path.rend(); i++)
-    {
-      Node *node = *i;
-      std::cout << node->id << " ";
-    }
+    backtracking->printPath(nos.at(0), nos.at(6));
+    depthFirstSearch->printPath(nos.at(0), nos.at(6));
   }
   catch (char const* exception)
   {

@@ -9,6 +9,20 @@ public:
   Backtracking() {};
   ~Backtracking() {};
 
+  void printPath(Node *start, Node *end)
+  {
+    auto path = getPath(start, end);
+
+    std::cout << "Backtracking - Solução: ";
+    for (auto i = path.rbegin(); i != path.rend(); i++)
+    {
+      Node *node = *i;
+      std::cout << node->id << " ";
+    }
+    printf("\n");
+  }
+
+private:
   /* A solução retornada está na ordem reversa, isto é, o caminho começa no fim
    * da lista e termina no início
    */
@@ -18,7 +32,7 @@ public:
 
     /* Dummy node com id inicial -1 para evitar loops infinitos no processo.
      * Vai sendo atualizado para evitar que um filho que já foi
-     * totalmente explorado gere o mesmo filho novamente na volta.
+     * totalmente explorado gere o mesmo filho novamente na volta
      */
     Node *aux = new Node(-1);
 
@@ -27,15 +41,17 @@ public:
 
     std::list<Node *> ancestors;
     ancestors.push_front(node);
+    node->ancestral = true;
 
     while (!failure && !success)
     {
-      if (hasApplicableOperators(node, ancestors, aux))
+      if (hasApplicableOperators(node, aux))
       {
         try
         {
           node = getFirstAdjacentThatIsNotAncestral(node, ancestors);
           ancestors.push_front(node);
+          node->ancestral = true;
 
           if (node == end)
           {
@@ -70,32 +86,29 @@ public:
     return ancestors;
   }
 
-private:
+
   /* A estratégia para determinar se um nó tem operadores aplicáveis se baseia
-   * em comparar os seus adjacentes com a lista de ancestrais
+   * em verificar se os seus adjacentes são ancestrais
    */
-  bool hasApplicableOperators(Node *no, std::list<Node *> ancestors, Node *aux)
+  bool hasApplicableOperators(Node *node, Node *aux)
   {
     int adjacentAncestors = 0;
 
     // Não contabilizamos como adjacente o nó que ele gerou (evita loop infinito)
-    no->adjacentes.remove(aux);
+    node->adjacentes.remove(aux);
 
-    for (auto adjacent : no->adjacentes)
+    for (auto adjacent : node->adjacentes)
     {
-      for (auto ancestral : ancestors)
+      if (adjacent->ancestral)
       {
-        if (ancestral == adjacent)
-        {
-          adjacentAncestors++;
-        }
+        adjacentAncestors++;
       }
     }
 
     /* Isso significa que todos os adjacentes são ancestrais, portanto não há nenhum adjacente
      * que possa ser visitado (nenhum operador aplicável)
      */
-    if (adjacentAncestors == no->adjacentes.size())
+    if (adjacentAncestors == node->adjacentes.size())
     {
       return false;
     }
@@ -103,24 +116,11 @@ private:
     return true;
   }
 
-  Node* getFirstAdjacentThatIsNotAncestral(Node *no, std::list<Node *> ancestors)
+  Node* getFirstAdjacentThatIsNotAncestral(Node *node, std::list<Node *> ancestors)
   {
-    for (auto adjacent : no->adjacentes)
+    for (auto adjacent : node->adjacentes)
     {
-      bool isDifferentFromAllAncestors = true;
-
-      for (auto ancestral : ancestors)
-      {
-        if (adjacent == ancestral)
-        {
-          isDifferentFromAllAncestors = false;
-        }
-      }
-
-      /* Retorna o primeiro nó que é diferente de todos os ancestrais. Deste modo, evita
-       * computação desnecessária
-       */
-      if (isDifferentFromAllAncestors)
+      if (!adjacent->ancestral)
       {
         return adjacent;
       }

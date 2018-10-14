@@ -8,11 +8,17 @@ class Node
 {
 public:
   int id;
+  Node *father; // Utilizado para guardar o caminho em algumas buscas
+  bool visited; // Utilizado para determinar se foi visitado em algumas buscas
+  bool ancestral; // Utilizado no backtracking para verificar se é ancestral
   std::list<Node *> adjacentes;
 
   Node(int id)
   {
     this->id = id;
+    this->visited = false;
+    this->ancestral = false;
+    this->father = NULL;
   };
 
   ~Node() {};

@@ -1,3 +1,13 @@
+/**
+ * @file    Backtracking.hpp
+ * @author  Diego Paiva e Silva
+ * @date    13/10/2018
+ *
+ * O algoritmo Backtracking é um algoritmo de busca que fornece, caso exista, um caminho
+ * (não necessariamente o mais curto) entre dois nós de entrada.
+ * Estratégia de controle utilizada: selecionar o primeiro adjacente que não é um ancestral.
+ */
+
 #ifndef BACKTRACKING_H_INCLUDED
 #define BACKTRACKING_H_INCLUDED
 

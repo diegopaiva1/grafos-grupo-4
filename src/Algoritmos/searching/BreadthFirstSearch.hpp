@@ -1,21 +1,21 @@
-#ifndef DEPTHFIRSTSEARCH_H_INCLUDED
-#define DEPTHFIRSTSEARCH_H_INCLUDED
+#ifndef BREADTHFIRSTSEARCH_H_INCLUDED
+#define BREADTHFIRSTSEARCH_H_INCLUDED
 
 #include "../../Node.hpp"
-#include <stack>
+#include <queue>
 #include <list>
 
-class DepthFirstSearch
+class BreadthFirstSearch
 {
 public:
-  DepthFirstSearch() {};
-  ~DepthFirstSearch() {};
+  BreadthFirstSearch() {};
+  ~BreadthFirstSearch() {};
 
   void printPath(Node *start, Node *end)
   {
     auto path = getPath(start, end);
 
-    std::cout << "DFS - Solução: ";
+    std::cout << "BFS - Solução: ";
     for (auto i = path.rbegin(); i != path.rend(); i++)
     {
       Node *node = *i;
@@ -27,7 +27,7 @@ public:
 private:
   std::list<Node *> getPath(Node *start, Node *end)
   {
-    std::stack<Node *> unvisited;
+    std::queue<Node *> unvisited;
     Node *node = start;
     bool failure = false;
     bool success = false;
@@ -47,7 +47,7 @@ private:
       }
       else
       {
-        node = unvisited.top();
+        node = unvisited.front();
 
         if (node == end)
         {
@@ -91,4 +91,4 @@ private:
   }
 };
 
-#endif // DEPTHFIRSTSEARCH_H_INCLUDED
+#endif // BREADTHFIRSTSEARCH_H_INCLUDED

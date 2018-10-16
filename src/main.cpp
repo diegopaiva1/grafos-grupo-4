@@ -1,6 +1,7 @@
 #include "Node.hpp"
 #include "Algoritmos/searching/Backtracking.hpp"
 #include "Algoritmos/searching/DepthFirstSearch.hpp"
+#include "Algoritmos/searching/BreadthFirstSearch.hpp"
 #include <fstream>
 
 void read(std::string arquivo, std::vector<Node *> &nos)
@@ -43,18 +44,22 @@ void read(std::string arquivo, std::vector<Node *> &nos)
 int main(int argc, char* argv[])
 {
   std::string file = argv[1];
+  int start = atoi(argv[2]);
+  int end = atoi(argv[3]);
 
   std::vector<Node *> nos;
 
   read(file, nos);
 
   Backtracking *backtracking = new Backtracking();
-  DepthFirstSearch *depthFirstSearch = new DepthFirstSearch();
+  DepthFirstSearch *dfs = new DepthFirstSearch();
+  BreadthFirstSearch *bfs = new BreadthFirstSearch();
 
   try
   {
-    backtracking->printPath(nos.at(0), nos.at(6));
-    depthFirstSearch->printPath(nos.at(0), nos.at(6));
+    backtracking->printPath(nos.at(start), nos.at(end));
+    bfs->printPath(nos.at(start), nos.at(end));
+    //dfs->printPath(nos.at(start), nos.at(end));
   }
   catch (char const* exception)
   {

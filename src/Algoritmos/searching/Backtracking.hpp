@@ -19,9 +19,9 @@ public:
   Backtracking() {};
   ~Backtracking() {};
 
-  void printPath(Node *start, Node *end)
+  void printPath(Graph *graph, int start, int end)
   {
-    auto path = getPath(start, end);
+    auto path = getPath(graph, graph->getNode(start), graph->getNode(end));
 
     std::cout << "Backtracking - Solução: ";
     for (auto i = path.rbegin(); i != path.rend(); i++)
@@ -36,8 +36,13 @@ private:
   /* A solução retornada está na ordem reversa, isto é, o caminho começa no fim
    * da lista e termina no início
    */
-  std::list<Node *> getPath(Node *start, Node *end)
+  std::list<Node *> getPath(Graph *graph, Node *start, Node *end)
   {
+    for (auto node : graph->nodes)
+    {
+      node->ancestral = false;
+    }
+
     Node *node = start;
 
     /* Dummy node com id inicial -1 para evitar loops infinitos no processo.
@@ -105,9 +110,9 @@ private:
     int adjacentAncestors = 0;
 
     // Não contabilizamos como adjacente o nó que ele gerou (evita loop infinito)
-    node->adjacentes.remove(aux);
+    node->adjacents.remove(aux);
 
-    for (auto adjacent : node->adjacentes)
+    for (auto adjacent : node->adjacents)
     {
       if (adjacent->ancestral)
       {
@@ -118,7 +123,7 @@ private:
     /* Isso significa que todos os adjacentes são ancestrais, portanto não há nenhum adjacente
      * que possa ser visitado (nenhum operador aplicável)
      */
-    if (adjacentAncestors == node->adjacentes.size())
+    if (adjacentAncestors == node->adjacents.size())
     {
       return false;
     }
@@ -128,7 +133,7 @@ private:
 
   Node* getFirstAdjacentThatIsNotAncestral(Node *node, std::list<Node *> ancestors)
   {
-    for (auto adjacent : node->adjacentes)
+    for (auto adjacent : node->adjacents)
     {
       if (!adjacent->ancestral)
       {
@@ -136,7 +141,7 @@ private:
       }
     }
 
-    throw "Todos os adjacentes deste nó são ancestrais!";
+    throw "Todos os adjacents deste nó são ancestrais!";
   }
 };
 

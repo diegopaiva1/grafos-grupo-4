@@ -11,7 +11,7 @@ public:
   Node *father; // Utilizado para guardar o caminho em algumas buscas
   bool visited; // Utilizado para determinar se foi visitado em algumas buscas
   bool ancestral; // Utilizado no backtracking para verificar se é ancestral
-  std::list<Node *> adjacentes;
+  std::list<Node *> adjacents;
 
   Node(int id)
   {
@@ -22,6 +22,11 @@ public:
   };
 
   ~Node() {};
+
+  void addEdge(Node *node)
+  {
+    adjacents.push_back(node);
+  }
 
   bool operator==(const Node& no) const
   {

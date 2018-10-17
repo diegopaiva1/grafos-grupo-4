@@ -1,38 +1,35 @@
-#ifndef DEPTHFIRSTSEARCH_H_INCLUDED
-#define DEPTHFIRSTSEARCH_H_INCLUDED
+/**
+ * @file    UniformCostSearch.hpp
+ * @author  Diego Paiva e Silva
+ * @date    16/10/2018
+ *
+ * O algoritmo Busca Ordenada é um algoritmo de busca que fornece, caso exista, o caminho ótimo
+ * (menor custo) entre dois nós de entrada. Utiliza uma fila de prioridade para ir determinando,
+ * ao decorrer do processo, qual o nó escolhido para integrar a solução.
+ */
+
+#ifndef UNIFORMCOSTSEARCH_H_INCLUDED
+#define UNIFORMCOSTSEARCH_H_INCLUDED
 
 #include "../../Node.hpp"
-#include <stack>
+#include <queue>
 #include <list>
 
-class DepthFirstSearch
+class UniformCostSearch
 {
 public:
-  DepthFirstSearch() {};
-  ~DepthFirstSearch() {};
+  UniformCostSearch() {};
+  ~UniformCostSearch() {};
 
-  void printPath(Graph *graph, int start, int end)
+  void printPath(Node *start, Node *end)
   {
-    auto path = getPath(graph, graph->getNode(start), graph->getNode(end));
-
-    std::cout << "DFS - Solução: ";
-    for (auto i = path.rbegin(); i != path.rend(); i++)
-    {
-      Node *node = *i;
-      std::cout << node->id << " ";
-    }
-    printf("\n");
+    auto path = getPath(start, end);
   }
 
 private:
-  std::list<Node *> getPath(Graph *graph, Node *start, Node *end)
+  std::list<Node *> getPath(Node *start, Node *end)
   {
-    for (auto node : graph->nodes)
-    {
-      node->visited = false;
-    }
-
-    std::stack<Node *> unvisited;
+    std::priority_queue<Node *, std::vector<Node *>, std::greater<Node *>> unvisited;
     Node *node = start;
     bool failure = false;
     bool success = false;
@@ -62,7 +59,7 @@ private:
         {
           unvisited.pop();
 
-          for (auto i = node->adjacents.begin(); i != node->adjacents.end(); i++)
+          for (auto i = node->adjacentes.begin(); i != node->adjacentes.end(); i++)
           {
             Node *adjacent = *i;
             if (!adjacent->visited)
@@ -96,4 +93,4 @@ private:
   }
 };
 
-#endif // DEPTHFIRSTSEARCH_H_INCLUDED
+#endif // UNIFORMCOSTSEARCH_H_INCLUDED

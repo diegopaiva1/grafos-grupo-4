@@ -11,9 +11,9 @@ public:
   BreadthFirstSearch() {};
   ~BreadthFirstSearch() {};
 
-  void printPath(Node *start, Node *end)
+  void printPath(Graph *graph, int start, int end)
   {
-    auto path = getPath(start, end);
+    auto path = getPath(graph, graph->getNode(start), graph->getNode(end));
 
     std::cout << "BFS - Solução: ";
     for (auto i = path.rbegin(); i != path.rend(); i++)
@@ -25,8 +25,13 @@ public:
   }
 
 private:
-  std::list<Node *> getPath(Node *start, Node *end)
+  std::list<Node *> getPath(Graph *graph, Node *start, Node *end)
   {
+    for (auto node : graph->nodes)
+    {
+      node->visited = false;
+    }
+
     std::queue<Node *> unvisited;
     Node *node = start;
     bool failure = false;
@@ -57,7 +62,7 @@ private:
         {
           unvisited.pop();
 
-          for (auto i = node->adjacentes.begin(); i != node->adjacentes.end(); i++)
+          for (auto i = node->adjacents.begin(); i != node->adjacents.end(); i++)
           {
             Node *adjacent = *i;
             if (!adjacent->visited)

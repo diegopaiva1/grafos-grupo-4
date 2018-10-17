@@ -1,18 +1,20 @@
-#include "Node.hpp"
+#include "Graph.hpp"
 #include "Algoritmos/searching/Backtracking.hpp"
 #include "Algoritmos/searching/DepthFirstSearch.hpp"
 #include "Algoritmos/searching/BreadthFirstSearch.hpp"
 #include <fstream>
 
-void read(std::string arquivo, std::vector<Node *> &nos)
+void read(std::string file, Graph &graph)
 {
+  int nodeAmount;
+  int arcAmount;
   int id1;
   int id2;
-  int size;
+  double weight;
 
-  std::ifstream arq(arquivo);
+  std::ifstream f(file);
 
-  if (!arq.is_open())
+  if (!f.is_open())
   {
     std::cout << "Erro na leitura do arquivo" << std::endl;
     exit(0);
@@ -20,23 +22,26 @@ void read(std::string arquivo, std::vector<Node *> &nos)
   else
   {
     // Eis a primeira linha
-    arq >> size;
-    nos.resize(size + 1);
+    f >> nodeAmount;
+    f >> arcAmount;
+    graph.order = nodeAmount;
+    graph.nodes.resize(nodeAmount);
+    graph.arcs.resize(arcAmount);
 
     // Demais linhas
-    while (arq >> id1 >> id2)
+    while (f >> id1 >> id2 >> weight)
     {
-      if (nos.at(id1) == NULL)
+      if (!graph.hasNode(id1))
       {
-        nos.at(id1) = new Node(id1);
+        graph.addNode(id1);
       }
 
-      if (nos.at(id2) == NULL)
+      if (!graph.hasNode(id2))
       {
-        nos.at(id2) = new Node(id2);
+        graph.addNode(id2);
       }
 
-      nos.at(id1)->adjacentes.push_back(nos.at(id2));
+      graph.addArc(id1, id2, weight);
     }
   }
 }
@@ -47,19 +52,19 @@ int main(int argc, char* argv[])
   int start = atoi(argv[2]);
   int end = atoi(argv[3]);
 
-  std::vector<Node *> nos;
+  Graph *graph = new Graph();
 
-  read(file, nos);
+  read(file, *graph);
 
-  Backtracking *backtracking = new Backtracking();
-  DepthFirstSearch *dfs = new DepthFirstSearch();
-  BreadthFirstSearch *bfs = new BreadthFirstSearch();
+  Backtracking backtracking;
+  DepthFirstSearch dfs;
+  BreadthFirstSearch bfs;
 
   try
   {
-    backtracking->printPath(nos.at(start), nos.at(end));
-    bfs->printPath(nos.at(start), nos.at(end));
-    //dfs->printPath(nos.at(start), nos.at(end));
+    backtracking.printPath(graph, start, end);
+    bfs.printPath(graph, start, end);
+    dfs.printPath(graph, start, end);
   }
   catch (char const* exception)
   {

@@ -11,9 +11,24 @@
 #ifndef UNIFORMCOSTSEARCH_H_INCLUDED
 #define UNIFORMCOSTSEARCH_H_INCLUDED
 
-#include "../../Node.hpp"
+#include "../../Graph.hpp"
 #include <queue>
 #include <list>
+
+struct NodeCost
+{
+  Node *node;
+  Node *father;
+  double cost;
+};
+
+struct LessThanByCost
+{
+  bool operator()(const NodeCost& nodeCost1, const NodeCost& nodeCost2) const
+  {
+    return nodeCost1.cost > nodeCost2.cost;
+  }
+};
 
 class UniformCostSearch
 {
@@ -21,25 +36,36 @@ public:
   UniformCostSearch() {};
   ~UniformCostSearch() {};
 
-  void printPath(Node *start, Node *end)
+  void printPath(Graph *graph, int start, int end)
   {
-    auto path = getPath(start, end);
+    auto path = getPath(graph, graph->getNode(start), graph->getNode(end));
+
+    std::cout << "Busca Ordenada - Solução: ";
+    for (auto i = path.rbegin(); i != path.rend(); i++)
+    {
+      Node *node = *i;
+      std::cout << node->id << " ";
+    }
+    printf("\n");
   }
 
 private:
-  std::list<Node *> getPath(Node *start, Node *end)
+  std::list<Node *> getPath(Graph *graph, Node *start, Node *end)
   {
-    std::priority_queue<Node *, std::vector<Node *>, std::greater<Node *>> unvisited;
+    for (auto node : graph->nodes)
+    {
+      node->visited = false;
+      node->father = nullptr;
+    }
+
+    std::priority_queue<NodeCost, std::vector<NodeCost>, LessThanByCost> unvisited;
     Node *node = start;
     bool failure = false;
     bool success = false;
 
-    // Nó para representar o pai do nó atual. Consideramos que o pai da raíz tem índice default -1
-    Node *father = new Node(-1);
-    node->father = father;
-    node->visited = true;
+    struct NodeCost nodeCost = {node, nullptr, 0};
 
-    unvisited.push(node);
+    unvisited.push(nodeCost);
 
     while (!failure && !success)
     {
@@ -49,9 +75,10 @@ private:
       }
       else
       {
-        node = unvisited.top();
+        nodeCost = unvisited.top();
+        std::cout << nodeCost.node->id << " " << nodeCost.cost << std::endl;
 
-        if (node == end)
+        if (nodeCost.node == end)
         {
           success = true;
         }
@@ -59,14 +86,23 @@ private:
         {
           unvisited.pop();
 
-          for (auto i = node->adjacentes.begin(); i != node->adjacentes.end(); i++)
+          for (auto arc : graph->arcs.at(nodeCost.node->id))
           {
-            Node *adjacent = *i;
-            if (!adjacent->visited)
+            bool different = true;
+            NodeCost p = nodeCost;
+            while (p.node != nullptr)
             {
-              unvisited.push(adjacent);
-              adjacent->father = node;
-              adjacent->visited = true;
+              if (arc->node2 == p.node)
+              {
+                different = false;
+                break;
+              }
+              p.node = p.node->father;
+            }
+            if (different)
+            {
+              arc->node2->father = nodeCost.node;
+              unvisited.push({arc->node2, nodeCost.node, nodeCost.cost + arc->weight});
             }
           }
         }
@@ -82,11 +118,12 @@ private:
     std::list<Node *> path;
 
     // A partir do nó final conseguimos ir acessando os pais até o ponto de partida
-    Node *pathComponent = end;
-    while (pathComponent->id != -1)
+    std::cout << "Custo da solução = " << nodeCost.father->id << std::endl;
+    Node *node = nodeCost.node;
+    while (node != nullptr)
     {
-      path.push_back(pathComponent);
-      pathComponent = pathComponent->father;
+      path.push_back(node);
+      node = nodeCost.father;
     }
 
     return path;

@@ -44,6 +44,18 @@ public:
 
     arcs.at(id1).push_back(arc);
   };
+
+  std::list<Arc *> getNodeArcs(int id)
+  {
+    if (hasNode(id))
+    {
+      return arcs.at(id);
+    }
+    else
+    {
+      throw "Nó não existente no grafo!";
+    }
+  }
 };
 
 #endif // GRAPH_H_INCLUDED

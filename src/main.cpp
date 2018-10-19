@@ -2,6 +2,7 @@
 #include "Algoritmos/searching/Backtracking.hpp"
 #include "Algoritmos/searching/DepthFirstSearch.hpp"
 #include "Algoritmos/searching/BreadthFirstSearch.hpp"
+#include "Algoritmos/searching/UniformCostSearch.hpp"
 #include <fstream>
 
 void read(std::string file, Graph &graph)
@@ -25,8 +26,10 @@ void read(std::string file, Graph &graph)
     f >> nodeAmount;
     f >> arcAmount;
     graph.order = nodeAmount;
-    graph.nodes.resize(nodeAmount);
+    graph.nodes.resize(nodeAmount + 1);
     graph.arcs.resize(arcAmount);
+    // Dummy node pois os nós começam a partir de 1
+    graph.addNode(0);
 
     // Demais linhas
     while (f >> id1 >> id2 >> weight)
@@ -59,12 +62,14 @@ int main(int argc, char* argv[])
   Backtracking backtracking;
   DepthFirstSearch dfs;
   BreadthFirstSearch bfs;
+  UniformCostSearch ucs;
 
   try
   {
     backtracking.printPath(graph, start, end);
     bfs.printPath(graph, start, end);
     dfs.printPath(graph, start, end);
+    ucs.printPath(graph, start, end);
   }
   catch (char const* exception)
   {

@@ -30,6 +30,7 @@ private:
     for (auto node : graph->nodes)
     {
       node->visited = false;
+      node->father = NULL;
     }
 
     std::queue<Node *> unvisited;

@@ -1,7 +1,7 @@
 #ifndef DEPTHFIRSTSEARCH_H_INCLUDED
 #define DEPTHFIRSTSEARCH_H_INCLUDED
 
-#include "../../Node.hpp"
+#include "../../Graph.hpp"
 #include <stack>
 #include <list>
 

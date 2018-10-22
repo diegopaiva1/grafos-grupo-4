@@ -4,8 +4,8 @@
  * @date    16/10/2018
  *
  * O algoritmo Busca Ordenada é um algoritmo de busca que fornece, caso exista, o caminho ótimo
- * (menor custo) entre dois nós de entrada. Utiliza uma fila de prioridade para ir determinando,
- * ao decorrer do processo, qual o nó escolhido para integrar a solução.
+ * (menor custo) entre dois nós de entrada. Utiliza uma fila de prioridade para ir determinando
+ * ao decorrer do processo qual o nó escolhido para expansão.
  */
 
 #ifndef UNIFORMCOSTSEARCH_H_INCLUDED
@@ -13,15 +13,20 @@
 
 #include "../../Graph.hpp"
 #include <queue>
-#include <list>
 
+/* Estrutura que permite com que a fila de prioridades armazene
+ * os nós com seus respectivos custos acumulados
+ */
 struct NodeCost
 {
   Node *node;
-  Node *father;
   double cost;
 };
 
+/* Estrutura utilizada como terceiro parâmetro em std::priority_queue para que possamos
+ * construir uma fila de prioridade na qual o elemento mais prioritário é o de menor
+ * custo (como uma min-heap)
+ */
 struct LessThanByCost
 {
   bool operator()(const NodeCost& nodeCost1, const NodeCost& nodeCost2) const
@@ -36,6 +41,8 @@ public:
   UniformCostSearch() {};
   ~UniformCostSearch() {};
 
+  double cost;
+
   void printPath(Graph *graph, int start, int end)
   {
     auto path = getPath(graph, graph->getNode(start), graph->getNode(end));
@@ -46,6 +53,7 @@ public:
       Node *node = *i;
       std::cout << node->id << " ";
     }
+    std::cout << "(Custo = " << this->cost << ")";
     printf("\n");
   }
 
@@ -54,29 +62,30 @@ private:
   {
     for (auto node : graph->nodes)
     {
-      node->visited = false;
       node->father = nullptr;
     }
 
-    std::priority_queue<NodeCost, std::vector<NodeCost>, LessThanByCost> unvisited;
-    Node *node = start;
+    std::priority_queue<NodeCost, std::vector<NodeCost>, LessThanByCost> frontier;
     bool failure = false;
     bool success = false;
+    std::list<NodeCost> explored;
+    std::list<Node *> path;
 
-    struct NodeCost nodeCost = {node, nullptr, 0};
+    // Ponto de partida: origem com custo 0
+    struct NodeCost nodeCost = {start, 0};
 
-    unvisited.push(nodeCost);
+    frontier.push(nodeCost);
+    explored.push_back(nodeCost);
 
     while (!failure && !success)
     {
-      if (unvisited.empty())
+      if (frontier.empty())
       {
         failure = true;
       }
       else
       {
-        nodeCost = unvisited.top();
-        std::cout << nodeCost.node->id << " " << nodeCost.cost << std::endl;
+        nodeCost = frontier.top();
 
         if (nodeCost.node == end)
         {
@@ -84,25 +93,24 @@ private:
         }
         else
         {
-          unvisited.pop();
+          frontier.pop();
 
-          for (auto arc : graph->arcs.at(nodeCost.node->id))
+          for (auto arc : graph->getNodeArcs(nodeCost.node->id))
           {
-            bool different = true;
-            NodeCost p = nodeCost;
-            while (p.node != nullptr)
+            auto adjacent = arc->node2;
+            struct NodeCost adjacentNodeCost = {adjacent, nodeCost.cost + arc->weight};
+
+            if (!hasBeenExplored(adjacent, explored))
             {
-              if (arc->node2 == p.node)
-              {
-                different = false;
-                break;
-              }
-              p.node = p.node->father;
+              frontier.push(adjacentNodeCost);
+              explored.push_back(adjacentNodeCost);
+              adjacent->father = nodeCost.node;
             }
-            if (different)
+            else if (hasBeenExploredWithHigherCost(adjacentNodeCost, explored))
             {
-              arc->node2->father = nodeCost.node;
-              unvisited.push({arc->node2, nodeCost.node, nodeCost.cost + arc->weight});
+              frontier.push(adjacentNodeCost);
+              swapHighestCostWithLowerCost(adjacentNodeCost, explored);
+              adjacent->father = nodeCost.node;
             }
           }
         }
@@ -114,19 +122,55 @@ private:
       throw "Não há solução possível entre os dois nós fornecidos.";
     }
 
-    // Criando a lista com a solução final para retornar ao fim do processo
-    std::list<Node *> path;
-
     // A partir do nó final conseguimos ir acessando os pais até o ponto de partida
-    std::cout << "Custo da solução = " << nodeCost.father->id << std::endl;
-    Node *node = nodeCost.node;
-    while (node != nullptr)
+    for (auto node = end; node != nullptr; node = node->father)
     {
       path.push_back(node);
-      node = nodeCost.father;
     }
 
+    this->cost = nodeCost.cost;
+
     return path;
+  }
+
+  bool hasBeenExplored(Node *node, std::list<NodeCost> explored)
+  {
+    for (auto nodeCost : explored)
+    {
+      if (nodeCost.node == node)
+      {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  bool hasBeenExploredWithHigherCost(struct NodeCost nodeCost, std::list<NodeCost> explored)
+  {
+    for (auto nc : explored)
+    {
+      if (nc.node == nodeCost.node && nc.cost > nodeCost.cost)
+      {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  void swapHighestCostWithLowerCost(struct NodeCost lowerNodeCost, std::list<NodeCost> &explored)
+  {
+    for (auto nodeCost = explored.begin(); nodeCost != explored.end(); nodeCost++)
+    {
+      struct NodeCost nc = *nodeCost;
+
+      if (nc.node == lowerNodeCost.node && nc.cost > lowerNodeCost.cost)
+      {
+        *nodeCost = lowerNodeCost;
+        return;
+      }
+    }
   }
 };
 

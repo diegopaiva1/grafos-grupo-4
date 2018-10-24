@@ -2,7 +2,6 @@
 #define GRAPH_H_INCLUDED
 
 #include "Arc.hpp"
-#include "Heuristic.hpp"
 #include <vector>
 
 class Graph

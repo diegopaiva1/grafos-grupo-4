@@ -115,8 +115,8 @@ private:
     // A partir do nó final conseguimos ir acessando os pais até o ponto de partida
     for (auto node = end; node != nullptr; node = node->father)
     {
-      this->cost += graph->heuristics[node->id][end->id];
       path.push_back(node);
+      this->cost += graph->getHeuristicValue(node, end);
     }
 
     return path;

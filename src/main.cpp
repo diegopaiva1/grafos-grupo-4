@@ -1,19 +1,22 @@
+#include <fstream>
 #include "Graph.hpp"
 #include "Algoritmos/searching/Backtracking.hpp"
 #include "Algoritmos/searching/DepthFirstSearch.hpp"
 #include "Algoritmos/searching/BreadthFirstSearch.hpp"
 #include "Algoritmos/searching/UniformCostSearch.hpp"
-#include <fstream>
+#include "Algoritmos/searching/GreedySearch.hpp"
 
 void read(std::string file, Graph &graph)
 {
-  int nodeAmount;
-  int arcAmount;
-  int id1;
-  int id2;
-  double weight;
-
+  int nodesAmount;
+  int arcsAmount;
+  int heuristicsAmount;
+  std::string id1;
+  std::string id2;
+  std::string weight;
+  std::string heuristic;
   std::ifstream f(file);
+  std::streampos old;
 
   if (!f.is_open())
   {
@@ -23,28 +26,47 @@ void read(std::string file, Graph &graph)
   else
   {
     // Eis a primeira linha
-    f >> nodeAmount;
-    f >> arcAmount;
-    graph.order = nodeAmount;
-    graph.nodes.resize(nodeAmount + 1);
-    graph.arcs.resize(arcAmount);
+    f >> nodesAmount;
+    f >> arcsAmount;
+    f >> heuristicsAmount;
+    graph.order = nodesAmount;
+    graph.nodes.resize(nodesAmount + 1);
+    graph.arcs.resize(arcsAmount + 1);
+    graph.heuristics.resize(heuristicsAmount + 1);
+
     // Dummy node pois os nós começam a partir de 1
     graph.addNode(0);
 
     // Demais linhas
-    while (f >> id1 >> id2 >> weight)
+    while (f >> id1 >> id2 >> weight && id1 != "h")
     {
-      if (!graph.hasNode(id1))
+      if (!graph.hasNode(atoi(id1.c_str())))
       {
-        graph.addNode(id1);
+        graph.addNode(atoi(id1.c_str()));
+        graph.heuristics.at(atoi(id1.c_str())).resize(heuristicsAmount + 1);
       }
 
-      if (!graph.hasNode(id2))
+      if (!graph.hasNode(atoi(id2.c_str())))
       {
-        graph.addNode(id2);
+        graph.addNode(atoi(id2.c_str()));
+        graph.heuristics.at(atoi(id2.c_str())).resize(heuristicsAmount + 1);
       }
 
-      graph.addArc(id1, id2, weight);
+      graph.addArc(atoi(id1.c_str()), atoi(id2.c_str()), atof(weight.c_str()));
+
+      // Salva posição da última linha lida
+      old = f.tellg();
+    }
+
+    // Retoma na linha que encontrou "h"
+    f.seekg(old);
+
+    // Descarta o "h"
+    f >> id1;
+
+    while (f >> id1 >> id2 >> heuristic)
+    {
+      graph.addHeuristic(atoi(id1.c_str()), atoi(id2.c_str()), atof(heuristic.c_str()));
     }
   }
 }
@@ -62,14 +84,15 @@ int main(int argc, char* argv[])
   Backtracking backtracking;
   DepthFirstSearch dfs;
   BreadthFirstSearch bfs;
-  UniformCostSearch ucs;
+  GreedySearch gs;
+
 
   try
   {
     backtracking.printPath(graph, start, end);
     bfs.printPath(graph, start, end);
     dfs.printPath(graph, start, end);
-    ucs.printPath(graph, start, end);
+    gs.printPath(graph, start, end);
   }
   catch (char const* exception)
   {

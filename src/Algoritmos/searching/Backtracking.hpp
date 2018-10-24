@@ -101,7 +101,6 @@ private:
     return ancestors;
   }
 
-
   /* A estratégia para determinar se um nó tem operadores aplicáveis se baseia
    * em verificar se os seus adjacentes são ancestrais
    */

@@ -1,28 +1,14 @@
 #ifndef BREADTHFIRSTSEARCH_H_INCLUDED
 #define BREADTHFIRSTSEARCH_H_INCLUDED
 
-#include "../../Node.hpp"
+#include "Search.hpp"
 #include <queue>
-#include <list>
 
-class BreadthFirstSearch
+class BreadthFirstSearch : public Search
 {
 public:
   BreadthFirstSearch() {};
   ~BreadthFirstSearch() {};
-
-  void printPath(Graph *graph, int start, int end)
-  {
-    auto path = getPath(graph, graph->getNode(start), graph->getNode(end));
-
-    std::cout << "BFS - Solução: ";
-    for (auto i = path.rbegin(); i != path.rend(); i++)
-    {
-      Node *node = *i;
-      std::cout << node->id << " ";
-    }
-    printf("\n");
-  }
 
 private:
   std::list<Node *> getPath(Graph *graph, Node *start, Node *end)

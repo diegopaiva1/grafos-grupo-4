@@ -5,37 +5,22 @@
  *
  * O algoritmo Backtracking é um algoritmo de busca que fornece, caso exista, um caminho
  * (não necessariamente o mais curto) entre dois nós de entrada.
+ *
  * Estratégia de controle utilizada: selecionar o primeiro adjacente que não é um ancestral.
  */
 
 #ifndef BACKTRACKING_H_INCLUDED
 #define BACKTRACKING_H_INCLUDED
 
-#include "../../Node.hpp"
+#include "Search.hpp"
 
-class Backtracking
+class Backtracking : public Search
 {
 public:
   Backtracking() {};
   ~Backtracking() {};
 
-  void printPath(Graph *graph, int start, int end)
-  {
-    auto path = getPath(graph, graph->getNode(start), graph->getNode(end));
-
-    std::cout << "Backtracking - Solução: ";
-    for (auto i = path.rbegin(); i != path.rend(); i++)
-    {
-      Node *node = *i;
-      std::cout << node->id << " ";
-    }
-    printf("\n");
-  }
-
 private:
-  /* A solução retornada está na ordem reversa, isto é, o caminho começa no fim
-   * da lista e termina no início
-   */
   std::list<Node *> getPath(Graph *graph, Node *start, Node *end)
   {
     for (auto node : graph->nodes)

@@ -7,55 +7,19 @@
 #ifndef GREEDY_H_INCLUDED
 #define GREEDY_H_INCLUDED
 
-#include "../../Graph.hpp"
-#include <queue>
+#include "Search.hpp"
 
-/* Estrutura que permite com que a fila de prioridades armazene
- * os nós com seus respectivos custos acumulados
- */
-struct NodeCost
-{
-  Node *node;
-  double cost;
-};
-
-/* Estrutura utilizada como terceiro parâmetro em std::priority_queue para que possamos
- * construir uma fila de prioridade na qual o elemento mais prioritário é o de menor
- * custo (como uma min-heap)
- */
-struct LessThanByCost
-{
-  bool operator()(const NodeCost& nodeCost1, const NodeCost& nodeCost2) const
-  {
-    return nodeCost1.cost > nodeCost2.cost;
-  }
-};
-
-class GreedySearch
+class GreedySearch : public Search
 {
 public:
   GreedySearch() {};
   ~GreedySearch() {};
 
-  double cost = 0.0;
-
-  void printPath(Graph *graph, int start, int end)
-  {
-    auto path = getPath(graph, graph->getNode(start), graph->getNode(end));
-
-    std::cout << "Busca Gulosa - Solução: ";
-    for (auto i = path.rbegin(); i != path.rend(); i++)
-    {
-      Node *node = *i;
-      std::cout << node->id << " ";
-    }
-    std::cout << "(Custo = " << this->cost << ")";
-    printf("\n");
-  }
-
 private:
   std::list<Node *> getPath(Graph *graph, Node *start, Node *end)
   {
+    cost = 0.0;
+
     for (auto node : graph->nodes)
     {
       node->father = nullptr;

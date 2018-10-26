@@ -1,16 +1,16 @@
 /**
- * @file    Searching.hpp
+ * @file    Search.hpp
  * @author  Diego Paiva e Silva
  * @date    26/10/2018
  *
- * A classe Searching tem o propósito de servir como uma interface para que os algoritmos de busca
+ * A classe Search tem o propósito de servir como uma interface para que os algoritmos de busca
  * (backtracking, dfs, bfs, etc) implementem seus próprios métodos para realizar a busca pela solução,
- * além de reunir os métodos comuns a todas as busca. Esta classe é abstrata e portanto não pode ser
- * instanciada. Qualquer tentativa de instaciá-la irá gerar erros de compilação.
+ * além de reunir o(s) método(s) comun(s) a todas as busca. Esta classe é abstrata e portanto não pode
+ * ser instanciada. Qualquer tentativa de instanciá-la irá gerar erros de compilação.
  */
 
-#ifndef SEARCHING_H_INCLUDED
-#define SEARCHING_H_INCLUDED
+#ifndef SEARCH_H_INCLUDED
+#define SEARCH_H_INCLUDED
 
 #include "../../Graph.hpp"
 
@@ -35,11 +35,11 @@ struct LessThanByCost
   }
 };
 
-class Searching
+class Search
 {
 public:
-  Searching() {};
-  ~Searching() {};
+  Search() {};
+  ~Search() {};
 
   void printPath(Graph *graph, int start, int end)
   {
@@ -50,10 +50,13 @@ public:
       Node *node = *i;
       std::cout << node->id << " ";
     }
+
+    std::cout << "(Custo = " << cost << ")" << std::endl;
   }
 
-private:
+protected:
+  double cost;
   virtual std::list<Node *> getPath(Graph *graph, Node *start, Node *end) = 0;
 };
 
-#endif // SEARCHING_H_INCLUDED
+#endif // SEARCH_H_INCLUDED

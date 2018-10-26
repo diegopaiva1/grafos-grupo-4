@@ -1,5 +1,4 @@
 #include <fstream>
-#include "Graph.hpp"
 #include "Algoritmos/searching/Backtracking.hpp"
 #include "Algoritmos/searching/DepthFirstSearch.hpp"
 #include "Algoritmos/searching/BreadthFirstSearch.hpp"
@@ -84,13 +83,20 @@ int main(int argc, char* argv[])
   Backtracking backtracking;
   DepthFirstSearch dfs;
   BreadthFirstSearch bfs;
+  UniformCostSearch ucs;
   GreedySearch gs;
 
   try
   {
+    std::cout << "Backtracking - Solução: ";
     backtracking.printPath(graph, start, end);
+    std::cout << "BFS - Solução: ";
     bfs.printPath(graph, start, end);
+    std::cout << "DFS - Solução: ";
     dfs.printPath(graph, start, end);
+    std::cout << "Ordenada - Solução: ";
+    ucs.printPath(graph, start, end);
+    std::cout << "Gulosa - Solução: ";
     gs.printPath(graph, start, end);
   }
   catch (char const* exception)

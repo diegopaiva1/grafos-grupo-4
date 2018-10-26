@@ -1,28 +1,14 @@
 #ifndef DEPTHFIRSTSEARCH_H_INCLUDED
 #define DEPTHFIRSTSEARCH_H_INCLUDED
 
-#include "../../Graph.hpp"
+#include "Search.hpp"
 #include <stack>
-#include <list>
 
-class DepthFirstSearch
+class DepthFirstSearch : public Search
 {
 public:
   DepthFirstSearch() {};
   ~DepthFirstSearch() {};
-
-  void printPath(Graph *graph, int start, int end)
-  {
-    auto path = getPath(graph, graph->getNode(start), graph->getNode(end));
-
-    std::cout << "DFS - Solução: ";
-    for (auto i = path.rbegin(); i != path.rend(); i++)
-    {
-      Node *node = *i;
-      std::cout << node->id << " ";
-    }
-    printf("\n");
-  }
 
 private:
   std::list<Node *> getPath(Graph *graph, Node *start, Node *end)

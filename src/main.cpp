@@ -86,7 +86,6 @@ int main(int argc, char* argv[])
   BreadthFirstSearch bfs;
   GreedySearch gs;
 
-
   try
   {
     backtracking.printPath(graph, start, end);

@@ -64,14 +64,14 @@ private:
     std::priority_queue<NodeCost, std::vector<NodeCost>, LessThanByCost> frontier;
     bool failure = false;
     bool success = false;
-    std::list<NodeCost> explored;
+    std::list<Node *> explored;
     std::list<Node *> path;
 
     // Ponto de partida: origem com custo da heurística do nó inicial ao final
     struct NodeCost nodeCost = {start, graph->getHeuristicValue(start, end)};
 
     frontier.push(nodeCost);
-    explored.push_back(nodeCost);
+    explored.push_back(start);
 
     while (!failure && !success)
     {
@@ -99,7 +99,7 @@ private:
             if (!hasBeenExplored(adjacent, explored))
             {
               frontier.push(adjacentNodeCost);
-              explored.push_back(adjacentNodeCost);
+              explored.push_back(adjacent);
               adjacent->father = nodeCost.node;
             }
           }
@@ -122,11 +122,11 @@ private:
     return path;
   }
 
-  bool hasBeenExplored(Node *node, std::list<NodeCost> explored)
+  bool hasBeenExplored(Node *n, std::list<Node *> explored)
   {
-    for (auto nodeCost : explored)
+    for (auto node : explored)
     {
-      if (nodeCost.node == node)
+      if (node == n)
       {
         return true;
       }

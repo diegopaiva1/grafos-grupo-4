@@ -16,16 +16,13 @@ private:
     for (auto node : graph->nodes)
     {
       node->visited = false;
+      node->father = nullptr;
     }
 
     std::stack<Node *> unvisited;
-    Node *node = start;
     bool failure = false;
     bool success = false;
-
-    // Nó para representar o pai do nó atual. Consideramos que o pai da raíz tem índice default -1
-    Node *father = new Node(-1);
-    node->father = father;
+    Node *node = start;
     node->visited = true;
 
     unvisited.push(node);
@@ -72,7 +69,7 @@ private:
 
     // A partir do nó final conseguimos ir acessando os pais até o ponto de partida
     Node *pathComponent = end;
-    while (pathComponent->id != -1)
+    while (pathComponent != nullptr)
     {
       path.push_back(pathComponent);
       pathComponent = pathComponent->father;

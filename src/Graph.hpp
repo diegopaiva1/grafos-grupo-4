@@ -54,7 +54,7 @@ public:
     }
     else
     {
-      throw "Erro";
+      throw "Impossível adicionar heurística - Um dos nós não existe no grafo";
     }
   };
 

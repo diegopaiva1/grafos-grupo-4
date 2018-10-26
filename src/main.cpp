@@ -1,4 +1,5 @@
 #include <fstream>
+#include "Algoritmos/searching/AStar.hpp"
 #include "Algoritmos/searching/Backtracking.hpp"
 #include "Algoritmos/searching/DepthFirstSearch.hpp"
 #include "Algoritmos/searching/BreadthFirstSearch.hpp"
@@ -85,6 +86,7 @@ int main(int argc, char* argv[])
   BreadthFirstSearch bfs;
   UniformCostSearch ucs;
   GreedySearch gs;
+  AStar as;
 
   try
   {
@@ -98,6 +100,8 @@ int main(int argc, char* argv[])
     ucs.printPath(graph, start, end);
     std::cout << "Gulosa - Solução: ";
     gs.printPath(graph, start, end);
+    std::cout << "A* - Solução: ";
+    as.printPath(graph, start, end);
   }
   catch (char const* exception)
   {

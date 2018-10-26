@@ -5,7 +5,7 @@
  *
  * A classe Search tem o propósito de servir como uma interface para que os algoritmos de busca
  * (backtracking, dfs, bfs, etc) implementem seus próprios métodos para realizar a busca pela solução,
- * além de reunir o(s) método(s) comun(s) a todas as busca. Esta classe é abstrata e portanto não pode
+ * além de reunir o(s) método(s) comun(s) a todas as buscas. Esta classe é abstrata e portanto não pode
  * ser instanciada. Qualquer tentativa de instanciá-la irá gerar erros de compilação.
  */
 
@@ -21,10 +21,11 @@ struct NodeCost
 {
   Node *node;
   double cost;
+  double costWithoutHeuristic;
 };
 
 /* Estrutura utilizada nas buscas: ordenada, gulosa, A* e IDA*. É empregada como terceiro
- * parâmetro em std::priority_queue para que possamos construir uma fila de prioridade
+ * parâmetro em std::priority_queue para que se possa construir uma fila de prioridades
  * na qual o elemento mais prioritário é o de menor custo (como uma min-heap)
  */
 struct LessThanByCost

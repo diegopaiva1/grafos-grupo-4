@@ -33,7 +33,6 @@ private:
     std::list<NodeCost> explored;
     std::list<Node *> path;
 
-
     struct NodeCost nodeCost = {start, graph->getHeuristicValue(start, end), 0};
 
     frontier.push(nodeCost);
@@ -57,13 +56,13 @@ private:
         {
           frontier.pop();
 
-          for (auto arc : graph->getNodeArcs(nodeCost.node->id))
+          for (auto adjacent : nodeCost.node->adjacents)
           {
-            auto adjacent = arc->node2;
             struct NodeCost adjacentNodeCost = {
               adjacent,
-              nodeCost.costWithoutHeuristic + arc->weight + graph->getHeuristicValue(adjacent, end),
-              nodeCost.costWithoutHeuristic + arc->weight
+              nodeCost.costWithoutHeuristic + graph->getArcWeight(adjacent, nodeCost.node)
+                                            + graph->getHeuristicValue(adjacent, end),
+              nodeCost.costWithoutHeuristic + graph->getArcWeight(adjacent, nodeCost.node)
             };
 
             if (!hasBeenExplored(adjacent, explored))
@@ -92,9 +91,11 @@ private:
     for (auto node = end; node != nullptr; node = node->father)
     {
       path.push_back(node);
+      if (node->father != nullptr)
+      {
+        this->cost += graph->getArcWeight(node->father, node);
+      }
     }
-
-    this->cost = nodeCost.cost;
 
     return path;
   }

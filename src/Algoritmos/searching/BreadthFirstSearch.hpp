@@ -68,11 +68,13 @@ private:
     std::list<Node *> path;
 
     // A partir do nó final conseguimos ir acessando os pais até o ponto de partida
-    Node *pathComponent = end;
-    while (pathComponent != nullptr)
+    for (auto node = end; node != nullptr; node = node->father)
     {
-      path.push_back(pathComponent);
-      pathComponent = pathComponent->father;
+      path.push_back(node);
+      if (node->father != nullptr)
+      {
+        this->cost += graph->getArcWeight(node->father, node);
+      }
     }
 
     return path;

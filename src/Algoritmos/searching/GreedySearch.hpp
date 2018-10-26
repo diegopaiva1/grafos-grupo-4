@@ -55,9 +55,8 @@ private:
         {
           frontier.pop();
 
-          for (auto arc : graph->getNodeArcs(nodeCost.node->id))
+          for (auto adjacent : nodeCost.node->adjacents)
           {
-            auto adjacent = arc->node2;
             struct NodeCost adjacentNodeCost = {adjacent, graph->getHeuristicValue(adjacent, end)};
 
             if (!hasBeenExplored(adjacent, explored))
@@ -80,7 +79,10 @@ private:
     for (auto node = end; node != nullptr; node = node->father)
     {
       path.push_back(node);
-      this->cost += graph->getHeuristicValue(node, end);
+      if (node->father != nullptr)
+      {
+        this->cost += graph->getArcWeight(node->father, node);
+      }
     }
 
     return path;

@@ -6,7 +6,7 @@
 #include "Algoritmos/searching/UniformCostSearch.hpp"
 #include "Algoritmos/searching/GreedySearch.hpp"
 
-void read(std::string file, Graph &graph)
+void createGraphFromFile(std::string file, Graph &graph)
 {
   int nodesAmount;
   int arcsAmount;
@@ -52,6 +52,7 @@ void read(std::string file, Graph &graph)
         graph.heuristics.at(atoi(id2.c_str())).resize(heuristicsAmount + 1);
       }
 
+      graph.arcs.at(atoi(id1.c_str())).resize(nodesAmount + 1);
       graph.addArc(atoi(id1.c_str()), atoi(id2.c_str()), atof(weight.c_str()));
 
       // Salva posição da última linha lida
@@ -79,7 +80,7 @@ int main(int argc, char* argv[])
 
   Graph *graph = new Graph();
 
-  read(file, *graph);
+  createGraphFromFile(file, *graph);
 
   Backtracking backtracking;
   DepthFirstSearch dfs;

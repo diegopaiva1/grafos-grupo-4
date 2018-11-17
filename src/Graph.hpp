@@ -1,3 +1,32 @@
+/**
+ * @file    Graph.hpp
+ * @author  Diego Paiva e Silva
+ * @date    13/10/2018
+ *
+ * Esta classe representa um grafo na memória através de um vetor de nós em que cada nó ocupa
+ * a posição correspondente ao seu id (como uma função de hash tal que h(k) = k).
+ * As matrizes 'arcs' e 'heuristics' armazenam o valor do peso do arco e da heurística,
+ * respectivamente, entre dois nós i e j pertencentes ao conjunto de nós do grafo.
+ * Exemplo de arquivo de leitura de uma instância:
+ *
+ * x y z
+ * 1 2 c1
+ * 1 5 c2
+ * ...
+ * n 5 cn
+ * heuristics
+ * 1 2 h1
+ * 1 5 h2
+ * ...
+ * 1 n hn
+ *
+ * x, y e z representam a quantidade de nós, a quantidade de arcos e a quantidade de heurísticas, respectivamente.
+ * Todas as linhas abaixo de 'x y z' e acima de 'heuristics' representam todos os arcos (cauda, cabeça e peso)
+ * da instância.
+ * Todas as linhas abaixo de 'heuristics' definem o valor da heurística de um nó i para um nó j pertencentes
+ * ao conjunto de nós do grafo.
+ */
+
 #ifndef GRAPH_H_INCLUDED
 #define GRAPH_H_INCLUDED
 
@@ -16,19 +45,19 @@ public:
   ~Graph() {}
 
  /* Constrói os nós, arcos e heuristicas do grafo através do arquivo da
-  * instância passada como argumento
+  * instância passada como argumento no construtor
   */
   void mount(std::string instanceFile)
   {
     int nodesAmount;
     int arcsAmount;
     int heuristicsAmount;
-    std::string id1;
-    std::string id2;
-    std::string weight;
-    std::string heuristic;
+    int id1;
+    int id2;
+    double weight;
+    double heuristic;
     std::ifstream file(instanceFile);
-    std::streampos old;
+    std::string heuristicLabel; // Utilizado para descartar o label 'heuristics' do arquivo de leitura
 
     if (!file.is_open())
     {
@@ -49,41 +78,43 @@ public:
       // Dummy node '0' pois os nós começam a partir de 1
       addNode(0);
 
-      // Demais linhas
-      while (file >> id1 >> id2 >> weight && id1 != "heuristics")
+      // Lê todos os arcos definidos no arquivo
+      for (int i = 0; i < arcsAmount; i++)
       {
-        if (!hasNode(atoi(id1.c_str())))
+        file >> id1;
+        file >> id2;
+        file >> weight;
+
+        if (!hasNode(id1))
         {
-          addNode(atoi(id1.c_str()));
-          heuristics.at(atoi(id1.c_str())).resize(heuristicsAmount + 1);
+          addNode(id1);
+          heuristics.at(id1).resize(heuristicsAmount + 1);
         }
 
-        if (!hasNode(atoi(id2.c_str())))
+        if (!hasNode(id2))
         {
-          addNode(atoi(id2.c_str()));
-          heuristics.at(atoi(id2.c_str())).resize(heuristicsAmount + 1);
+          addNode(id2);
+          heuristics.at(id2).resize(heuristicsAmount + 1);
         }
 
-        arcs.at(atoi(id1.c_str())).resize(nodesAmount + 1);
-        addArc(atoi(id1.c_str()), atoi(id2.c_str()), atof(weight.c_str()));
-
-        // Salva posição da última linha lida
-        old = file.tellg();
+        arcs.at(id1).resize(nodesAmount + 1);
+        addArc(id1, id2, weight);
       }
 
-      // Retoma na linha que encontrou "heuristics"
-      file.seekg(old);
+      // Descarta o label 'heuristics' do arquivo
+      file >> heuristicLabel;
 
-      // Descarta o "heuristics"
-      file >> id1;
+      // Lê todas as heurísticas do arquivo
+      for (int i = 0; i < heuristicsAmount; i++)
+      {
+        file >> id1;
+        file >> id2;
+        file >> heuristic;
 
-      // Retoma a leitura dos valores (começam as heurísticas)
-      while (file >> id1 >> id2 >> heuristic)
-        addHeuristic(atoi(id1.c_str()), atoi(id2.c_str()), atof(heuristic.c_str()));
+        addHeuristic(id1, id2, heuristic);
+      }
     }
   }
-
-  Node* getNode(int id) { return nodes.at(id); }
 
   void addNode(int id)
   {
@@ -94,6 +125,8 @@ public:
   }
 
   bool hasNode(int id) { return nodes.at(id) != NULL; }
+
+  Node* getNode(int id) { return nodes.at(id); }
 
   void addArc(int id1, int id2, double weight)
   {

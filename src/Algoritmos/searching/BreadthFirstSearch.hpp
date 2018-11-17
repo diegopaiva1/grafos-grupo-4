@@ -13,6 +13,8 @@ public:
 private:
   std::list<Node *> getPath(Graph *graph, Node *start, Node *end)
   {
+    cost = 0.0;
+
     for (auto node : graph->nodes)
     {
       node->visited = false;
@@ -60,9 +62,7 @@ private:
     }
 
     if (failure)
-    {
       throw "Não há solução possível entre os dois nós fornecidos.";
-    }
 
     // Criando a lista com a solução final para retornar ao fim do processo
     std::list<Node *> path;
@@ -71,10 +71,9 @@ private:
     for (auto node = end; node != nullptr; node = node->father)
     {
       path.push_back(node);
+
       if (node->father != nullptr)
-      {
         this->cost += graph->getArcWeight(node->father, node);
-      }
     }
 
     return path;

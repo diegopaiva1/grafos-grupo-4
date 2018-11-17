@@ -21,9 +21,7 @@ private:
     cost = 0.0;
 
     for (auto node : graph->nodes)
-    {
       node->father = nullptr;
-    }
 
     std::priority_queue<NodeCost, std::vector<NodeCost>, LessThanByCost> frontier;
     bool failure = false;
@@ -71,18 +69,15 @@ private:
     }
 
     if (failure)
-    {
       throw "Não há solução possível entre os dois nós fornecidos.";
-    }
 
     // A partir do nó final conseguimos ir acessando os pais até o ponto de partida
     for (auto node = end; node != nullptr; node = node->father)
     {
       path.push_back(node);
+
       if (node->father != nullptr)
-      {
         this->cost += graph->getArcWeight(node->father, node);
-      }
     }
 
     return path;
@@ -93,9 +88,7 @@ private:
     for (auto node : explored)
     {
       if (node == n)
-      {
         return true;
-      }
     }
 
     return false;

@@ -20,11 +20,11 @@
  * ...
  * 1 n hn
  *
- * x, y e z representam a quantidade de nós, a quantidade de arcos e a quantidade de heurísticas, respectivamente.
- * Todas as linhas abaixo de 'x y z' e acima de 'heuristics' representam todos os arcos (cauda, cabeça e peso)
- * da instância.
- * Todas as linhas abaixo de 'heuristics' definem o valor da heurística de um nó i para um nó j pertencentes
- * ao conjunto de nós do grafo.
+ * x, y e z representam a quantidade de nós, arcos e heurísticas, respectivamente.
+ * Todas as linhas abaixo de 'x y z' e acima de 'heuristics' representam todos os
+ * arcos (cauda, cabeça e peso) da instância.
+ * Todas as linhas abaixo de 'heuristics' definem o valor da heurística de um nó
+ * i para um nó j pertencentes ao conjunto de nós do grafo.
  */
 
 #ifndef GRAPH_H_INCLUDED
@@ -137,7 +137,7 @@ public:
     }
     else
     {
-      throw "Impossível adicionar arco - Um dos nós não existe no grafo";
+      throw "Impossível adicionar arco - Nó(s) não existe(m) no grafo de entrada";
     }
   }
 
@@ -154,7 +154,7 @@ public:
     if (hasNode(id1) && hasNode(id2))
       heuristics.at(id1).at(id2) = value;
     else
-      throw "Impossível adicionar heurística - Um dos nós não existe no grafo";
+      throw "Impossível adicionar heurística - Nó(s) não existe(m) no grafo de entrada";
   }
 
   double getHeuristicValue(Node *node1, Node *node2)

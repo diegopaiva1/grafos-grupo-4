@@ -68,7 +68,7 @@ private:
   }
 
  /* A estratégia para determinar se um nó tem operadores aplicáveis se baseia em verificar se os
-  * seus adjacentes são ou não ancestrais.
+  * seus adjacentes são ou não ancestrais
   */
   bool hasApplicableOperators(Node *node, std::list<Node *> ancestors, Node* undesirable)
   {

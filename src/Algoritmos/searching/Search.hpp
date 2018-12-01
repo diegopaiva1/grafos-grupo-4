@@ -14,8 +14,8 @@
 
 #include "../../Graph.hpp"
 
-/* Estrutura utilizada nas buscas: ordenada, gulosa, A* e IDA*. Permite com que
- * a fila de prioridades armazene os nós com seus respectivos custos acumulados
+/* Estrutura utilizada nas buscas: ordenada, gulosa e A*. Permite com que a
+ * fila de prioridades armazene os nós com seus respectivos custos acumulados
  */
 struct NodeCost
 {
@@ -24,7 +24,7 @@ struct NodeCost
   double costWithoutHeuristic;
 };
 
-/* Estrutura utilizada nas buscas: ordenada, gulosa, A* e IDA*. É empregada como terceiro
+/* Estrutura utilizada nas buscas: ordenada, gulosa e A*. É empregada como terceiro
  * parâmetro em std::priority_queue para que se possa construir uma fila de prioridades
  * na qual o elemento mais prioritário é o de menor custo (como uma min-heap)
  */

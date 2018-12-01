@@ -20,47 +20,39 @@ private:
   {
     cost = 0.0;
 
-    for (auto node : graph->nodes)
-      node->ancestral = false;
-
-    int bound = graph->getHeuristicValue(start, end);
-    Node *node = start;
-
-   /* Dummy node com id inicial -1 para evitar loops infinitos no processo.
-    * Vai sendo atualizado para evitar que um filho que já foi
-    * totalmente explorado gere o mesmo filho novamente na volta
-    */
-    Node *aux = new Node(-1);
-
     bool failure = false;
     bool success = false;
+    int bound = graph->getHeuristicValue(start, end);
+    double estimate = 0;
+    double c = 0;
 
     std::list<Node *> ancestors;
-    ancestors.push_front(node);
-    node->ancestral = true;
+    ancestors.push_front(start);
 
-    int i = 0;
+    Node *node = start;
+    Node *undesirable = nullptr;
 
     while (!failure && !success)
     {
-      if (hasApplicableOperators(node, aux))
+      if (hasApplicableOperators(node, ancestors, undesirable))
       {
-        i += graph->getArcWeight(node, getFirstAdjacentThatIsNotAncestral(node, ancestors));
-        // node = getFirstAdjacentThatIsNotAncestral(node, ancestors);
-        int c = i + graph->getHeuristicValue(getFirstAdjacentThatIsNotAncestral(node, ancestors), end);
+        Node* next = getFirstNonAncestralAdjacent(node, ancestors, undesirable);
+        c += graph->getArcWeight(node, next);
+        estimate = c + graph->getHeuristicValue(next, end);
 
-        node = getFirstAdjacentThatIsNotAncestral(node, ancestors);
+        ancestors.push_front(next);
 
-        ancestors.push_front(node);
-        node->ancestral = true;
-
-        if (c > bound)
+        if (estimate > bound)
         {
-          i -= graph->getArcWeight(node, getFirstAdjacentThatIsNotAncestral(node, ancestors));
-          aux = ancestors.front();
-          aux->ancestral = false;
-          ancestors.remove(aux);
+          c -= graph->getArcWeight(node, next);
+          undesirable = ancestors.front();
+          ancestors.remove(undesirable);
           node = ancestors.front();
+        }
+        else
+        {
+          node = next;
+          undesirable = nullptr;
         }
 
         if (node == end)
@@ -74,12 +66,14 @@ private:
         }
         else
         {
-          aux = ancestors.front();
-          ancestors.remove(aux);
+          undesirable = ancestors.front();
+          ancestors.remove(undesirable);
           node = ancestors.front();
         }
       }
     }
+
+    cost = c;
 
     if (failure)
       throw "Não há solução possível entre os dois nós fornecidos.";
@@ -87,36 +81,42 @@ private:
     return ancestors;
   }
 
- /* A estratégia para determinar se um nó tem operadores aplicáveis se baseia
-  * em verificar se os seus adjacentes são ancestrais
+ /* A estratégia para determinar se um nó tem operadores aplicáveis se baseia em verificar se os
+  * seus adjacentes são ou não ancestrais
   */
-  bool hasApplicableOperators(Node *node, Node *aux)
+  bool hasApplicableOperators(Node *node, std::list<Node *> ancestors, Node* undesirable)
   {
     int adjacentAncestors = 0;
 
-    // Não contabilizamos como adjacente o nó que ele gerou (evita loop infinito)
-    node->adjacents.remove(aux);
+    for (Node* adjacent : node->adjacents)
+      for (Node* ancestor : ancestors)
+        if (adjacent == ancestor && adjacent != undesirable)
+          adjacentAncestors++;
 
-    for (auto adjacent : node->adjacents)
-      if (adjacent->ancestral)
-        adjacentAncestors++;
-
-   /* Isso significa que todos os adjacentes são ancestrais, portanto não há nenhum adjacente
-    * que possa ser visitado (nenhum operador aplicável)
-    */
-    if (adjacentAncestors == node->adjacents.size())
-      return false;
-
-    return true;
+    // Há operadores aplicáveis se pelo menos um dos nós adjacentes não é ancestral
+    return adjacentAncestors != node->adjacents.size();
   }
 
-  Node* getFirstAdjacentThatIsNotAncestral(Node *node, std::list<Node *> ancestors)
+  /* O terceiro parâmetro é passado para evitar a geração de um nó indesejável (útil no backtrack para
+   * evitar que o nó gere um filho cujo retorno ao pai já foi realizado)
+   */
+  Node* getFirstNonAncestralAdjacent(Node *node, std::list<Node *> ancestors, Node *undesirable)
   {
-    for (auto adjacent : node->adjacents)
-      if (!adjacent->ancestral)
-        return adjacent;
+    int nonAdjacentAncestors;
 
-    throw "Todos os adjacents deste nó são ancestrais!";
+    for (Node* adjacent : node->adjacents)
+    {
+      nonAdjacentAncestors = 0;
+
+      for (Node* ancestral : ancestors)
+        if (adjacent != ancestral && adjacent != undesirable)
+          nonAdjacentAncestors++;
+
+      if (nonAdjacentAncestors == ancestors.size())
+        return adjacent;
+    }
+
+    throw "Runtime error";
   }
 };
 

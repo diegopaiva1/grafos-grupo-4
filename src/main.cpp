@@ -4,6 +4,7 @@
 #include "Algoritmos/searching/BreadthFirstSearch.hpp"
 #include "Algoritmos/searching/UniformCostSearch.hpp"
 #include "Algoritmos/searching/GreedySearch.hpp"
+#include "Algoritmos/searching/IDAStar.hpp"
 
 #define EXPECTED_ARGUMENTS_AMOUNT 4
 
@@ -28,6 +29,7 @@ int main(int argc, char* argv[])
   UniformCostSearch uniformCostSearch;
   GreedySearch greedySearch;
   AStar aStar;
+  IDAStar IDAStar;
 
   try
   {
@@ -48,6 +50,9 @@ int main(int argc, char* argv[])
 
     std::cout << "A* - Solução: ";
     aStar.printPath(graph, start, end);
+
+    std::cout << "IDA* - Solução: ";
+    IDAStar.printPath(graph, start, end);
   }
   catch (char const* exception)
   {

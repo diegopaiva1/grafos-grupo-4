@@ -1,7 +1,7 @@
 /**
  * @file    IDAStar.hpp
  * @author  Diego Paiva e Silva
- * @date    13/10/2018
+ * @date    01/12/2018
  */
 
 #ifndef IDASTAR_H_INCLUDED
@@ -22,9 +22,9 @@ private:
 
     bool failure = false;
     bool success = false;
-    int bound = graph->getHeuristicValue(start, end);
-    double estimate = 0;
-    double c = 0;
+    double bound = graph->getHeuristicValue(start, end);
+    double oldBound = -1;
+    double estimate = 0.0;
 
     std::list<Node *> ancestors;
     ancestors.push_front(start);
@@ -32,48 +32,67 @@ private:
     Node *node = start;
     Node *undesirable = nullptr;
 
+    std::list<NodeCost> discarded;
+
     while (!failure && !success)
     {
-      if (hasApplicableOperators(node, ancestors, undesirable))
+      if (oldBound == bound)
       {
-        Node* next = getFirstNonAncestralAdjacent(node, ancestors, undesirable);
-        c += graph->getArcWeight(node, next);
-        estimate = c + graph->getHeuristicValue(next, end);
-
-        ancestors.push_front(next);
-
-        if (estimate > bound)
-        {
-          c -= graph->getArcWeight(node, next);
-          undesirable = ancestors.front();
-          ancestors.remove(undesirable);
-          node = ancestors.front();
-        }
-        else
-        {
-          node = next;
-          undesirable = nullptr;
-        }
-
-        if (node == end)
-          success = true;
+        failure = true;
       }
       else
       {
-        if (node == start)
+        if (node == end && f(graph, node, end, estimate) <= bound)
         {
-          failure = true;
+          success = true;
         }
         else
         {
-          undesirable = ancestors.front();
-          ancestors.remove(undesirable);
-          node = ancestors.front();
+          if (f(graph, node, end, estimate) > bound)
+          {
+            discarded.push_back({node, f(graph, node, end, estimate)});
+
+            undesirable = ancestors.front();
+            ancestors.remove(undesirable);
+            node = ancestors.front();
+            estimate -= graph->getArcWeight(node, undesirable);
+          }
+
+          if (hasApplicableOperators(node, ancestors, discarded, undesirable))
+          {
+            estimate += graph->getArcWeight(node, getFirstNonAncestralAdjacent(node, ancestors, discarded, undesirable));
+            node = getFirstNonAncestralAdjacent(node, ancestors, discarded, undesirable);
+            ancestors.push_front(node);
+            undesirable = nullptr;
+          }
+          else
+          {
+            if (node == start)
+            {
+              oldBound = bound;
+
+              if (!discarded.empty())
+                bound = discarded.front().cost;
+
+              for (auto d : discarded)
+                if (d.cost < bound)
+                  bound = d.cost;
+
+              discarded.clear();
+              undesirable = nullptr;
+            }
+            else
+            {
+              undesirable = ancestors.front();
+              ancestors.remove(undesirable);
+              node = ancestors.front();
+            }
+          }
         }
       }
     }
 
-    cost = c;
+    cost = estimate;
 
     if (failure)
       throw "Não há solução possível entre os dois nós fornecidos.";
@@ -81,38 +100,58 @@ private:
     return ancestors;
   }
 
+  double f(Graph *graph, Node *node, Node *end, double estimate)
+  {
+    return estimate + graph->getHeuristicValue(node, end);
+  }
+
  /* A estratégia para determinar se um nó tem operadores aplicáveis se baseia em verificar se os
   * seus adjacentes são ou não ancestrais
   */
-  bool hasApplicableOperators(Node *node, std::list<Node *> ancestors, Node* undesirable)
+  bool hasApplicableOperators(Node *node, std::list<Node *> ancestors, std::list<NodeCost> discarded, Node* undesirable)
   {
     int adjacentAncestors = 0;
+    int discardedAdjacents = 0;
 
     for (Node* adjacent : node->adjacents)
-      for (Node* ancestor : ancestors)
-        if (adjacent == ancestor && adjacent != undesirable)
+    {
+      for (Node* ancestral : ancestors)
+        if (adjacent == ancestral && adjacent != undesirable)
           adjacentAncestors++;
 
-    // Há operadores aplicáveis se pelo menos um dos nós adjacentes não é ancestral
-    return adjacentAncestors != node->adjacents.size();
+      for (NodeCost d : discarded)
+        if (adjacent == d.node)
+          discardedAdjacents++;
+    }
+
+    /* Há operadores aplicáveis se pelo menos um dos nós adjacentes não é ancestral
+     * e não está na lista de descartados
+     */
+    return (adjacentAncestors != node->adjacents.size() && discardedAdjacents != node->adjacents.size());
   }
 
   /* O terceiro parâmetro é passado para evitar a geração de um nó indesejável (útil no backtrack para
    * evitar que o nó gere um filho cujo retorno ao pai já foi realizado)
    */
-  Node* getFirstNonAncestralAdjacent(Node *node, std::list<Node *> ancestors, Node *undesirable)
+  Node* getFirstNonAncestralAdjacent(Node *node, std::list<Node *> ancestors, std::list<NodeCost> discarded, Node *undesirable)
   {
     int nonAdjacentAncestors;
+    int nonDiscardedAdjacents;
 
     for (Node* adjacent : node->adjacents)
     {
       nonAdjacentAncestors = 0;
+      nonDiscardedAdjacents = 0;
 
       for (Node* ancestral : ancestors)
         if (adjacent != ancestral && adjacent != undesirable)
           nonAdjacentAncestors++;
 
-      if (nonAdjacentAncestors == ancestors.size())
+      for (NodeCost d : discarded)
+        if (adjacent != d.node && adjacent != undesirable)
+          nonDiscardedAdjacents++;
+
+      if (nonAdjacentAncestors == ancestors.size() && nonDiscardedAdjacents == discarded.size())
         return adjacent;
     }
 

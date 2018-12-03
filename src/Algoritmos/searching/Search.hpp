@@ -22,6 +22,17 @@ struct NodeCost
   Node *node;
   double cost;
   double costWithoutHeuristic;
+
+  bool operator==(const NodeCost& nodeCost) const
+  {
+    return node == nodeCost.node && cost == nodeCost.cost &&
+           costWithoutHeuristic == nodeCost.costWithoutHeuristic;
+  }
+
+  bool operator!=(const NodeCost& nodeCost) const
+  {
+    return !(operator==(nodeCost));
+  }
 };
 
 /* Estrutura utilizada nas buscas: ordenada, gulosa e A*. É empregada como terceiro

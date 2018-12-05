@@ -22,6 +22,7 @@ public:
 private:
   std::list<Node *> getPath(Graph *graph, Node *start, Node *end)
   {
+    depth = 0;
     cost = 0.0;
 
     for (auto node : graph->nodes)
@@ -38,6 +39,7 @@ private:
 
     frontier.push(nodeCost);
     explored.push_back(nodeCost);
+    depth++;
 
     while (!failure && !success)
     {
@@ -48,6 +50,7 @@ private:
       else
       {
         nodeCost = frontier.top();
+        depth++;
 
         if (nodeCost.node == end)
         {
@@ -56,6 +59,7 @@ private:
         else
         {
           frontier.pop();
+          depth--;
 
           for (auto adjacent : nodeCost.node->adjacents)
           {

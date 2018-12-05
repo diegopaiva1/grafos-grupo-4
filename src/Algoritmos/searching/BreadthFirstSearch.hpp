@@ -13,6 +13,7 @@ public:
 private:
   std::list<Node *> getPath(Graph *graph, Node *start, Node *end)
   {
+    depth = 0;
     cost = 0.0;
 
     for (auto node : graph->nodes)
@@ -28,6 +29,7 @@ private:
     node->visited = true;
 
     unvisited.push(node);
+    depth++;
 
     while (!failure && !success)
     {
@@ -38,6 +40,7 @@ private:
       else
       {
         node = unvisited.front();
+        depth++;
 
         if (node == end)
         {
@@ -46,6 +49,7 @@ private:
         else
         {
           unvisited.pop();
+          depth--;
 
           for (auto i = node->adjacents.begin(); i != node->adjacents.end(); i++)
           {

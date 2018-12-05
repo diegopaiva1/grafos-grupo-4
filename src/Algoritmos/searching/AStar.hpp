@@ -20,6 +20,7 @@ public:
 private:
   std::list<Node *> getPath(Graph *graph, Node *start, Node *end)
   {
+    depth = 0;
     cost = 0.0;
 
     for (auto node : graph->nodes)
@@ -65,6 +66,7 @@ private:
 
             if (!hasBeenExplored(adjacent, explored))
             {
+              depth++;
               frontier.push(adjacentNodeCost);
               explored.push_back(adjacentNodeCost);
               adjacent->father = nodeCost.node;

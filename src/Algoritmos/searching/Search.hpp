@@ -13,6 +13,10 @@
 #define SEARCH_H_INCLUDED
 
 #include "../../Graph.hpp"
+#include <time.h>
+#include <chrono>
+
+typedef std::chrono::high_resolution_clock Time;
 
 /* Estrutura utilizada nas buscas: ordenada, gulosa e A*. Permite com que a
  * fila de prioridades armazene os nós com seus respectivos custos acumulados
@@ -55,7 +59,12 @@ public:
 
   void printPath(Graph *graph, int start, int end)
   {
+    Time::time_point t1 = Time::now(); // Tempo inicial de execução
     auto path = getPath(graph, graph->getNode(start), graph->getNode(end));
+    Time::time_point t2 = Time::now(); // Tempo final de execução
+
+    // Aqui calcula-se o tempo total de execução para o algoritmo em milisegundos
+    cpuTime = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
 
     for (auto i = path.rbegin(); i != path.rend(); i++)
     {
@@ -63,10 +72,12 @@ public:
       std::cout << node->id << " ";
     }
 
-    std::cout << "(Custo = " << cost << ")" << std::endl;
+    std::cout << "(Custo = " << cost << ", " << "tempo CPU = " << cpuTime/1000 << " microsegundos)" << std::endl;
   }
 
 protected:
+  int depth;
+  double cpuTime;
   double cost;
   virtual std::list<Node *> getPath(Graph *graph, Node *start, Node *end) = 0;
 };

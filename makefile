@@ -1,4 +1,4 @@
-PROJECT_NAME = grafosGrupo4
+PROJECT_NAME = searching
 CPP_FILES := $(shell find . -name "*.cpp")
 
 all: $(PROJECT_NAME)

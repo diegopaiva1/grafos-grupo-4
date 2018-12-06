@@ -38,6 +38,7 @@ private:
     {
       if (hasApplicableOperators(node, ancestors, undesirable))
       {
+        cost += graph->getArcWeight(node, getFirstNonAncestralAdjacent(node, ancestors, undesirable));
         node = getFirstNonAncestralAdjacent(node, ancestors, undesirable);
         ancestors.push_front(node);
 
@@ -57,6 +58,7 @@ private:
           undesirable = ancestors.front();
           ancestors.remove(undesirable);
           node = ancestors.front();
+          cost -= graph->getArcWeight(node, undesirable);
         }
       }
     }

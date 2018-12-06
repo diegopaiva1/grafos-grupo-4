@@ -18,6 +18,9 @@ public:
 private:
   std::list<Node *> getPath(Graph *graph, Node *start, Node *end)
   {
+    expandedNodes = 0;
+    visitedNodes = 0;
+    depth = 0;
     cost = 0.0;
 
     bool failure = false;
@@ -28,6 +31,8 @@ private:
 
     std::list<Node *> ancestors;
     ancestors.push_front(start);
+    visitedNodes++;
+    expandedNodes++;
 
     Node *node = start;
     Node *undesirable = nullptr;
@@ -55,6 +60,7 @@ private:
             undesirable = ancestors.front();
             ancestors.remove(undesirable);
             node = ancestors.front();
+            depth--;
             estimate -= graph->getArcWeight(node, undesirable);
           }
 
@@ -62,7 +68,10 @@ private:
           {
             estimate += graph->getArcWeight(node, getFirstNonAncestralAdjacent(node, ancestors, discarded, undesirable));
             node = getFirstNonAncestralAdjacent(node, ancestors, discarded, undesirable);
+            expandedNodes++;
             ancestors.push_front(node);
+            visitedNodes++;
+            depth++;
             undesirable = nullptr;
           }
           else
@@ -86,6 +95,7 @@ private:
               undesirable = ancestors.front();
               ancestors.remove(undesirable);
               node = ancestors.front();
+              depth--;
             }
           }
         }

@@ -5,26 +5,17 @@
  *
  * Esta classe representa um grafo na memória através de um vetor de nós em que cada nó ocupa
  * a posição correspondente ao seu id (como uma função de hash tal que h(k) = k).
- * As matrizes 'arcs' e 'heuristics' armazenam o valor do peso do arco e da heurística,
- * respectivamente, entre dois nós i e j pertencentes ao conjunto de nós do grafo.
- * Exemplo de arquivo de leitura de uma instância:
+ * A matriz 'arcs' armazena o valor do peso do arco entre dois nós i e j pertencentes ao
+ * conjunto de nós do grafo. Exemplo de arquivo de leitura de uma instância:
  *
- * x y z
+ * x y
  * 1 2 c1
  * 1 5 c2
  * ...
  * n 5 cn
- * heuristics
- * 1 2 h1
- * 1 5 h2
- * ...
- * 1 n hn
  *
- * x, y e z representam a quantidade de nós, arcos e heurísticas, respectivamente.
- * Todas as linhas abaixo de 'x y z' e acima de 'heuristics' representam todos os
- * arcos (cauda, cabeça e peso) da instância.
- * Todas as linhas abaixo de 'heuristics' definem o valor da heurística de um nó
- * i para um nó j pertencentes ao conjunto de nós do grafo.
+ * x e y representam a quantidade de nós e arcos, respectivamente.
+ * Todas as linhas abaixo de 'x y' representam todos os arcos (cauda, cabeça e peso) da instância.
  */
 
 #ifndef GRAPH_H_INCLUDED

@@ -33,8 +33,8 @@ int main(int argc, char* argv[])
 
   try
   {
-    // std::cout << "Backtracking - Solução: ";
-    // backtracking.printPath(graph, start, end);
+    std::cout << "Backtracking - Solução: ";
+    backtracking.printPath(graph, start, end);
 
     std::cout << "BFS - Solução: ";
     breadthFirstSearch.printPath(graph, start, end);
@@ -45,14 +45,14 @@ int main(int argc, char* argv[])
     std::cout << "Ordenada - Solução: ";
     uniformCostSearch.printPath(graph, start, end);
 
-    // std::cout << "Gulosa - Solução: ";
-    // greedySearch.printPath(graph, start, end);
+    std::cout << "Gulosa - Solução: ";
+    greedySearch.printPath(graph, start, end);
 
-    // std::cout << "A* - Solução: ";
-    // aStar.printPath(graph, start, end);
+    std::cout << "A* - Solução: ";
+    aStar.printPath(graph, start, end);
 
-    // std::cout << "IDA* - Solução: ";
-    // IDAStar.printPath(graph, start, end);
+    std::cout << "IDA* - Solução: ";
+    IDAStar.printPath(graph, start, end);
   }
   catch (char const* exception)
   {

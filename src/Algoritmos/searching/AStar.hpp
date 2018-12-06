@@ -31,7 +31,7 @@ private:
     std::list<NodeCost> explored;
     std::list<Node *> path;
 
-    struct NodeCost nodeCost = {start, graph->getHeuristicValue(start, end), 0};
+    struct NodeCost nodeCost = {start, graph->getEuclidianDistance(start, end), 0};
 
     frontier.push(nodeCost);
     explored.push_back(nodeCost);
@@ -59,7 +59,7 @@ private:
             struct NodeCost adjacentNodeCost = {
               adjacent,
               nodeCost.costWithoutHeuristic + graph->getArcWeight(adjacent, nodeCost.node)
-                                            + graph->getHeuristicValue(adjacent, end),
+                                            + graph->getEuclidianDistance(adjacent, end),
               nodeCost.costWithoutHeuristic + graph->getArcWeight(adjacent, nodeCost.node)
             };
 

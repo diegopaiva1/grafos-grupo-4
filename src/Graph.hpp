@@ -32,13 +32,13 @@
 
 #include <fstream>
 #include "Node.hpp"
+#include <cmath>
 
 class Graph
 {
 public:
   std::vector<Node *> nodes;
   std::vector<std::vector<double>> arcs;
-  std::vector<std::vector<double>> heuristics;
 
   Graph(std::string instanceFile) { mount(instanceFile); }
 
@@ -51,13 +51,14 @@ public:
   {
     int nodesAmount;
     int arcsAmount;
-    int heuristicsAmount;
+    double x1;
+    double y1;
+    double x2;
+    double y2;
     int id1;
     int id2;
     double weight;
-    double heuristic;
     std::ifstream file(instanceFile);
-    std::string heuristicLabel; // Utilizado para descartar o label 'heuristics' do arquivo de leitura
 
     if (!file.is_open())
     {
@@ -69,57 +70,40 @@ public:
       // Eis a primeira linha
       file >> nodesAmount;
       file >> arcsAmount;
-      file >> heuristicsAmount;
 
       nodes.resize(nodesAmount + 1);
       arcs.resize(arcsAmount + 1);
-      heuristics.resize(heuristicsAmount + 1);
 
       // Dummy node '0' pois os nós começam a partir de 1
-      addNode(0);
+      addNode(0, 0, 0);
 
       // Lê todos os arcos definidos no arquivo
       for (int i = 0; i < arcsAmount; i++)
       {
         file >> id1;
+        file >> x1;
+        file >> y1;
         file >> id2;
+        file >> x2;
+        file >> y2;
         file >> weight;
 
         if (!hasNode(id1))
-        {
-          addNode(id1);
-          heuristics.at(id1).resize(heuristicsAmount + 1);
-        }
+          addNode(x1, y1, id1);
 
         if (!hasNode(id2))
-        {
-          addNode(id2);
-          heuristics.at(id2).resize(heuristicsAmount + 1);
-        }
+          addNode(x2, y2, id2);
 
         arcs.at(id1).resize(nodesAmount + 1);
         addArc(id1, id2, weight);
       }
-
-      // Descarta o label 'heuristics' do arquivo
-      file >> heuristicLabel;
-
-      // Lê todas as heurísticas do arquivo
-      for (int i = 0; i < heuristicsAmount; i++)
-      {
-        file >> id1;
-        file >> id2;
-        file >> heuristic;
-
-        addHeuristic(id1, id2, heuristic);
-      }
     }
   }
 
-  void addNode(int id)
+  void addNode(double x, double y, int id)
   {
     if (!hasNode(id))
-      nodes.at(id) = new Node(id);
+      nodes.at(id) = new Node(x, y, id);
     else
       throw "Nó já existe no grafo!";
   }
@@ -149,22 +133,6 @@ public:
       throw "O(s) nó(s) não existe(m) no grafo de entrada";
   }
 
-  void addHeuristic(int id1, int id2, double value)
-  {
-    if (hasNode(id1) && hasNode(id2))
-      heuristics.at(id1).at(id2) = value;
-    else
-      throw "Impossível adicionar heurística - Nó(s) não existe(m) no grafo de entrada";
-  }
-
-  double getHeuristicValue(Node *node1, Node *node2)
-  {
-    if (hasNode(node1->id) && hasNode(node2->id))
-      return heuristics.at(node1->id).at(node2->id);
-    else
-      throw "O(s) nó(s) não existe(m) no grafo de entrada";
-  }
-
   std::list<Node *> getAdjacents(int id)
   {
     std::list<Node *> adjacents;
@@ -176,6 +144,14 @@ public:
     }
 
     return adjacents;
+  }
+
+  double getEuclidianDistance(Node *node1, Node *node2)
+  {
+    if (hasNode(node1->id) && hasNode(node2->id))
+      return sqrt(pow(node2->x - node1->x, 2) + pow(node2->y - node1->y, 2));
+    else
+      throw "O(s) nó(s) não existe(m) no grafo de entrada";
   }
 };
 

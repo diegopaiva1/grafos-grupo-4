@@ -30,7 +30,7 @@ private:
     std::list<Node *> path;
 
     // Ponto de partida: origem com custo da heurística do nó inicial ao final
-    struct NodeCost nodeCost = {start, graph->getHeuristicValue(start, end)};
+    struct NodeCost nodeCost = {start, graph->getEuclidianDistance(start, end)};
 
     frontier.push(nodeCost);
     explored.push_back(start);
@@ -55,7 +55,7 @@ private:
 
           for (auto adjacent : nodeCost.node->adjacents)
           {
-            struct NodeCost adjacentNodeCost = {adjacent, graph->getHeuristicValue(adjacent, end)};
+            struct NodeCost adjacentNodeCost = {adjacent, graph->getEuclidianDistance(adjacent, end)};
 
             if (!hasBeenExplored(adjacent, explored))
             {

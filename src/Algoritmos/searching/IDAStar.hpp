@@ -22,7 +22,7 @@ private:
 
     bool failure = false;
     bool success = false;
-    double bound = graph->getHeuristicValue(start, end);
+    double bound = graph->getEuclidianDistance(start, end);
     double oldBound = -1;
     double estimate = 0.0;
 
@@ -102,7 +102,7 @@ private:
 
   double f(Graph *graph, Node *node, Node *end, double estimate)
   {
-    return estimate + graph->getHeuristicValue(node, end);
+    return estimate + graph->getEuclidianDistance(node, end);
   }
 
  /* A estratégia para determinar se um nó tem operadores aplicáveis se baseia em verificar se os

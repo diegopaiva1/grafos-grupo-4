@@ -8,13 +8,17 @@
 class Node
 {
 public:
+  double x;
+  double y;
   int id;
   Node *father; // Utilizado para guardar o caminho em algumas buscas
   bool visited; // Utilizado para determinar se foi visitado em algumas buscas
   std::list<Node *> adjacents;
 
-  Node(int id)
+  Node(double x, double y, int id)
   {
+    this->x = x;
+    this->y = y;
     this->id = id;
     this->visited = false;
     this->father = NULL;

@@ -61,9 +61,9 @@ private:
             if (!adjacent->visited)
             {
               unvisited.push(adjacent);
+              expandedNodes++;
               adjacent->father = node;
               adjacent->visited = true;
-              expandedNodes++;
             }
           }
         }
